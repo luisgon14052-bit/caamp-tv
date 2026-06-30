@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -25,16 +24,17 @@ body{
   color:white;
 }
 
+/* PANTALLA ROTADA PARA TV VERTICAL */
 .screen{
   width:1080px;
   height:1920px;
   background:#000;
 
   position:absolute;
-  top:0;
-  left:100%;
+  top:100%;
+  left:0;
 
-  transform:rotate(90deg);
+  transform:rotate(-90deg);
   transform-origin:top left;
 
   padding:90px 80px;
@@ -198,33 +198,37 @@ const schedule = {
   ]
 };
 
-function update(){
+function update() {
   const now = new Date();
 
   document.getElementById("time").innerHTML =
     now.toLocaleTimeString("es-MX", {
-      hour:"numeric",
-      minute:"2-digit"
+      hour: "numeric",
+      minute: "2-digit"
     });
 
   document.getElementById("date").innerHTML =
     now.toLocaleDateString("es-MX", {
-      weekday:"long",
-      day:"numeric",
-      month:"long"
+      weekday: "long",
+      day: "numeric",
+      month: "long"
     });
 
-  const days = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
-  const today = schedule[days[now.getDay()]] || [];
+  const days = [
+    "sunday","monday","tuesday",
+    "wednesday","thursday",
+    "friday","saturday"
+  ];
 
+  const today = schedule[days[now.getDay()]] || [];
   let nextClass = null;
 
-  for(const c of today){
-    const [h,m] = c.time.split(":");
+  for (const c of today) {
+    const [h, m] = c.time.split(":");
     const d = new Date();
-    d.setHours(h,m,0,0);
+    d.setHours(h, m, 0, 0);
 
-    if(d > now){
+    if (d > now) {
       nextClass = c;
       break;
     }
@@ -232,7 +236,7 @@ function update(){
 
   const content = document.getElementById("content");
 
-  if(!nextClass){
+  if (!nextClass) {
     content.innerHTML = `
       <div class="closed">
         NO HAY MÁS<br>CLASES HOY
@@ -241,22 +245,17 @@ function update(){
     return;
   }
 
-  const [h,m] = nextClass.time.split(":");
-
+  const [h, m] = nextClass.time.split(":");
   const classDate = new Date();
-  classDate.setHours(h,m,0,0);
+  classDate.setHours(h, m, 0, 0);
 
   const diff = Math.max(
     0,
-    Math.floor((classDate-now)/1000)
+    Math.floor((classDate - now) / 1000)
   );
 
-  const minutes = Math.floor(diff/60);
+  const minutes = Math.floor(diff / 60);
   const seconds = diff % 60;
-
-  const upcoming = today
-    .filter(c => c.time > nextClass.time)
-    .slice(0,3);
 
   content.innerHTML = `
     <div class="label">PRÓXIMA CLASE</div>
@@ -270,20 +269,7 @@ function update(){
     <div class="countLabel">COMIENZA EN</div>
 
     <div class="countdown">
-      ${minutes}:${String(seconds).padStart(2,'0')}
-    </div>
-
-    <div class="next">
-      <div class="nextTitle">DESPUÉS</div>
-
-      ${
-        upcoming.map(c => `
-          <div class="card">
-            <span>${c.time}</span>
-            <span>${c.class}</span>
-          </div>
-        `).join("")
-      }
+      ${minutes}:${String(seconds).padStart(2,"0")}
     </div>
   `;
 }
@@ -294,4 +280,3 @@ setInterval(update,1000);
 
 </body>
 </html>
-```
