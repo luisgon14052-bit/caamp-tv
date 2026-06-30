@@ -6,6 +6,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CAAMP TV</title>
 
+.todayTitle{
+  font-size:70px;
+  margin-bottom:50px;
+  letter-spacing:6px;
+}
+
+.todayList{
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+  text-align:left;
+}
+
+.todayItem{
+  display:flex;
+  align-items:center;
+  gap:25px;
+  padding:20px;
+  border-bottom:1px solid #222;
+}
+
+.todayPhoto{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  object-fit:cover;
+  flex:none;
+}
+
+.todayInfo{
+  flex:1;
+}
+
+.todayCoach{
+  font-size:36px;
+}
+
+.todayClass{
+  font-size:24px;
+  color:#888;
+  margin-top:6px;
+}
+
+.todayTime{
+  font-size:34px;
+}
+
+.past{
+  opacity:.35;
+}
+
+.next{
+  border:2px solid #fff;
+  border-radius:25px;
+}
+  
 <style>
 @font-face {
   font-family: 'TTHoves';
@@ -275,6 +331,8 @@ function update(){
   const today =
     schedule[days[now.getDay()]] || [];
 
+  const cycle = Math.floor(Date.now()/120000)%2;
+
   let nextClass = null;
 
   for(const c of today){
@@ -334,59 +392,72 @@ function update(){
     countdownText = `${minutes}:${String(seconds).padStart(2,'0')}`;
   }
 
-  if(diff <= 300){
-    document.body.classList.add('green-mode');
+  if(cycle === 1){
 
-    content.innerHTML = `
-      <div class="label">
-        PRÓXIMA CLASE
-      </div>
+  let list = `
+    <div class="todayTitle">
+      TODAY'S TRAIN
+    </div>
 
-      <div class="class">
-        ${nextClass.class}
-      </div>
+    <div class="todayList">
+  `;
 
-      <div class="countLabel">
-        COMIENZA EN
-      </div>
+  today.forEach(c=>{
 
-      <div class="countdown">
-        ${countdownText}
+    const [h,m] = c.time.split(':');
+
+    const d = new Date();
+    d.setHours(h,m,0,0);
+
+    const isPast = d < now;
+    const isNext = nextClass && c.time === nextClass.time;
+
+    const photo =
+      Array.isArray(c.photo)
+        ? c.photo[0]
+        : c.photo;
+
+    list += `
+      <div class="todayItem ${isPast ? 'past' : ''} ${isNext ? 'next' : ''}">
+
+        <img
+          src="${photo}"
+          class="todayPhoto"
+        >
+
+        <div class="todayInfo">
+          <div class="todayCoach">
+            ${c.coach}
+          </div>
+
+          <div class="todayClass">
+            ${c.class}
+          </div>
+        </div>
+
+        <div class="todayTime">
+          ${new Date(`2000-01-01T${c.time}`)
+            .toLocaleTimeString(
+              'es-MX',
+              {
+                hour:'numeric',
+                minute:'2-digit'
+              }
+            )}
+        </div>
+
       </div>
     `;
+  });
 
-  } else {
+  list += `</div>`;
 
-    content.innerHTML = `
-      <div class="label">
-        PRÓXIMA CLASE
-      </div>
+  content.innerHTML = list;
 
-      <div class="class">
-        ${nextClass.class}
-      </div>
-
-      <div class="coach">
-        ${nextClass.coach}
-      </div>
-
-      <div class="classTime">
-        ${new Date(`2000-01-01T${nextClass.time}`).toLocaleTimeString('es-MX',{
-          hour:'numeric',
-          minute:'2-digit'
-        })}
-      </div>
-
-      <div class="countLabel">
-        COMIENZA EN
-      </div>
-
-            <div class="countdown">
-        ${countdownText}
-      </div>
-    `;
-  }
+  return;
 }
+
+if(diff <= 300){
 
 update();
 setInterval(update,1000);
