@@ -7,9 +7,9 @@
 <title>CAAMP TV</title>
 
 <style>
-@font-face{
-  font-family:'TTHoves';
-  src:url('./TT%20Hoves%20Pro%20Trial%20DemiBold.ttf') format('truetype');
+@font-face {
+  font-family: 'TTHoves';
+  src: url('./TT%20Hoves%20Pro%20Trial%20DemiBold.ttf') format('truetype');
 }
 
 *{
@@ -39,14 +39,13 @@ body{
   background:#000;
 
   position:absolute;
-  top:100%;
-  left:0;
+  top:0;
+  left:100%;
 
-  transform:rotate(-90deg);
+  transform:rotate(90deg);
   transform-origin:top left;
 
   padding:90px 80px;
-
   display:flex;
   flex-direction:column;
   text-align:center;
@@ -110,24 +109,6 @@ body{
   line-height:1;
 }
 
-.next{
-  margin-top:80px;
-}
-
-.nextTitle{
-  color:#777;
-  font-size:34px;
-  margin-bottom:30px;
-}
-
-.card{
-  display:flex;
-  justify-content:space-between;
-  padding:30px 0;
-  border-bottom:1px solid #222;
-  font-size:34px;
-}
-
 .footer{
   margin-top:auto;
   border-top:1px solid #222;
@@ -186,35 +167,41 @@ const schedule = {
     { time:"19:30", class:"LOWER BODY: QUADS", coach:"Baca" },
     { time:"20:30", class:"LOWER BODY: QUADS", coach:"Misa" }
   ],
+
   tuesday: [
     { time:"17:20", class:"UPPER BODY: PULL", coach:"Rosella" },
     { time:"18:30", class:"UPPER BODY: PULL", coach:"Andrea Dusten" },
     { time:"19:30", class:"UPPER BODY: PULL", coach:"Sofia DM" },
     { time:"20:30", class:"UPPER BODY: PULL", coach:"Misa" }
   ],
+
   wednesday: [
     { time:"17:20", class:"ALL ABOUT THE CORE", coach:"Luis Gonzalez" },
     { time:"18:30", class:"ALL ABOUT THE CORE", coach:"Sofia DM" },
     { time:"19:30", class:"ALL ABOUT THE CORE", coach:"Caap" },
     { time:"20:30", class:"ALL ABOUT THE CORE", coach:"Caap" }
   ],
+
   thursday: [
     { time:"17:20", class:"LOWER BODY: GLUTES", coach:"Misa" },
     { time:"18:30", class:"LOWER BODY: GLUTES", coach:"Rosella" },
     { time:"19:30", class:"LOWER BODY: GLUTES", coach:"Luis Gonzalez" },
     { time:"20:30", class:"LOWER BODY: GLUTES", coach:"Misa" }
   ],
+
   friday: [
     { time:"17:20", class:"UPPER BODY: PUSH", coach:"Luis Gonzalez" },
     { time:"18:30", class:"UPPER BODY: PUSH", coach:"Luis Gonzalez" },
     { time:"19:30", class:"UPPER BODY: PUSH", coach:"Misa" }
   ],
+
   saturday: [
     { time:"08:10", class:"FULL BODY", coach:"Andrea Dusten" },
     { time:"09:20", class:"FULL BODY - FOCUS LOWER", coach:"Misa" },
     { time:"10:30", class:"FULL BODY - FOCUS ABS", coach:"Zazu / Andrea" },
     { time:"11:30", class:"FULL BODY - FOCUS UPPER", coach:"Luis Gonzalez" }
   ],
+
   sunday: [
     { time:"09:30", class:"FULL BODY", coach:"Misa" },
     { time:"10:30", class:"FULL BODY / PT", coach:"Andrea Dusten" },
@@ -251,7 +238,6 @@ function update(){
   let nextClass = null;
 
   for(const c of today){
-
     const [h,m] = c.time.split(':');
 
     const d = new Date();
@@ -269,7 +255,6 @@ function update(){
   document.body.classList.remove('green-mode');
 
   if(!nextClass){
-
     content.innerHTML = `
       <div class="goodbye">
         <h1>
@@ -284,35 +269,24 @@ function update(){
         </p>
       </div>
     `;
-
     return;
   }
 
-  const [h,m] =
-    nextClass.time.split(':');
+  const [h,m] = nextClass.time.split(':');
 
-  const classDate =
-    new Date();
-
+  const classDate = new Date();
   classDate.setHours(h,m,0,0);
 
-  const diff =
-    Math.max(
-      0,
-      Math.floor((classDate-now)/1000)
-    );
+  const diff = Math.max(
+    0,
+    Math.floor((classDate-now)/1000)
+  );
 
-  const minutes =
-    Math.floor(diff/60);
-
-  const seconds =
-    diff % 60;
+  const minutes = Math.floor(diff/60);
+  const seconds = diff%60;
 
   if(diff <= 300){
     document.body.classList.add('green-mode');
-  }
-
-  if(diff <= 300){
 
     content.innerHTML = `
       <div class="label">
