@@ -1,162 +1,306 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAAMP TV</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAAMP TV</title>
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial, Helvetica, sans-serif;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
 
-    body{
-      background:#000;
-      color:#fff;
-      width:100vw;
-      height:100vh;
-      overflow:hidden;
-    }
+body{
+  background:#000;
+  color:white;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+}
 
-    .screen{
-      width:100%;
-      height:100%;
-      display:flex;
-      flex-direction:column;
-      padding:60px;
-    }
+.container{
+  height:100vh;
+  padding:70px;
+  display:flex;
+  flex-direction:column;
+}
 
-    .logo{
-      font-size:80px;
-      font-weight:900;
-      letter-spacing:4px;
-    }
+.logo{
+  font-size:100px;
+  font-weight:900;
+  letter-spacing:4px;
+}
 
-    .time{
-      margin-top:40px;
-      font-size:90px;
-      font-weight:700;
-    }
+.time{
+  font-size:90px;
+  margin-top:40px;
+  font-weight:700;
+}
 
-    .date{
-      color:#777;
-      font-size:32px;
-      margin-bottom:80px;
-    }
+.date{
+  color:#777;
+  font-size:32px;
+  margin-bottom:70px;
+}
 
-    .tag{
-      color:#888;
-      letter-spacing:5px;
-      font-size:28px;
-      margin-bottom:20px;
-    }
+.tag{
+  color:#999;
+  letter-spacing:5px;
+  font-size:26px;
+  margin-bottom:20px;
+}
 
-    .class{
-      font-size:88px;
-      font-weight:900;
-      line-height:0.95;
-      text-transform:uppercase;
-    }
+.class{
+  font-size:90px;
+  font-weight:900;
+  line-height:0.95;
+  text-transform:uppercase;
+}
 
-    .coach{
-      margin-top:40px;
-      font-size:42px;
-      color:#ddd;
-    }
+.coach{
+  margin-top:35px;
+  font-size:42px;
+  color:#ddd;
+}
 
-    .nextTime{
-      margin-top:20px;
-      font-size:80px;
-      font-weight:700;
-    }
+.classTime{
+  margin-top:15px;
+  font-size:80px;
+  font-weight:700;
+}
 
-    .coming{
-      margin-top:40px;
-      color:#999;
-      font-size:28px;
-    }
+.countLabel{
+  margin-top:40px;
+  color:#777;
+  font-size:28px;
+}
 
-    .countdown{
-      font-size:130px;
-      font-weight:900;
-      margin-top:10px;
-    }
+.countdown{
+  font-size:120px;
+  font-weight:900;
+}
 
-    .footer{
-      margin-top:auto;
-      border-top:1px solid #222;
-      padding-top:40px;
-      color:#777;
-      font-size:28px;
-    }
-  </style>
+.next{
+  margin-top:60px;
+}
+
+.next h2{
+  font-size:28px;
+  color:#999;
+  margin-bottom:20px;
+}
+
+.card{
+  display:flex;
+  justify-content:space-between;
+  padding:18px 0;
+  border-bottom:1px solid #222;
+  font-size:26px;
+}
+
+.footer{
+  margin-top:auto;
+  color:#666;
+  text-align:center;
+  font-size:26px;
+}
+
+.closed{
+  font-size:70px;
+  font-weight:900;
+  margin-top:100px;
+}
+</style>
 </head>
-
 <body>
 
-<div class="screen">
+<div class="container">
 
-  <div class="logo">CAAMP</div>
+<div class="logo">CAAMP</div>
 
-  <div class="time" id="time"></div>
-  <div class="date" id="date"></div>
+<div class="time" id="time"></div>
+<div class="date" id="date"></div>
 
-  <div class="tag">
-    PRÓXIMA CLASE
-  </div>
+<div id="content"></div>
 
-  <div class="class">
-    LOWER BODY:<br>
-    QUADS
-  </div>
-
-  <div class="coach">
-    Andrea Dusten
-  </div>
-
-  <div class="nextTime">
-    6:30 PM
-  </div>
-
-  <div class="coming">
-    COMIENZA EN
-  </div>
-
-  <div class="countdown" id="countdown">
-    12:47
-  </div>
-
-  <div class="footer">
-    @caampst<br><br>
-    TRAIN. EVOLVE. BELONG.
-  </div>
+<div class="footer">
+@caampst<br><br>
+TRAIN. EVOLVE. BELONG.
+</div>
 
 </div>
 
 <script>
-function updateClock(){
+
+const schedule = {
+  monday: [
+    { time: "17:20", class: "LOWER BODY: QUADS", coach: "Rosella" },
+    { time: "18:30", class: "LOWER BODY: QUADS", coach: "Andrea Dusten" },
+    { time: "19:30", class: "LOWER BODY: QUADS", coach: "Baca" },
+    { time: "20:30", class: "LOWER BODY: QUADS", coach: "Misa" }
+  ],
+
+  tuesday: [
+    { time: "17:20", class: "UPPER BODY: PULL", coach: "Rosella" },
+    { time: "18:30", class: "UPPER BODY: PULL", coach: "Andrea Dusten" },
+    { time: "19:30", class: "UPPER BODY: PULL", coach: "Sofia DM" },
+    { time: "20:30", class: "UPPER BODY: PULL", coach: "Misa" }
+  ],
+
+  wednesday: [
+    { time: "17:20", class: "ALL ABOUT THE CORE", coach: "Luis Gonzalez" },
+    { time: "18:30", class: "ALL ABOUT THE CORE", coach: "Sofia DM" },
+    { time: "19:30", class: "ALL ABOUT THE CORE", coach: "Caap" },
+    { time: "20:30", class: "ALL ABOUT THE CORE", coach: "Caap" }
+  ],
+
+  thursday: [
+    { time: "17:20", class: "LOWER BODY: GLUTES", coach: "Misa" },
+    { time: "18:30", class: "LOWER BODY: GLUTES", coach: "Rosella" },
+    { time: "19:30", class: "LOWER BODY: GLUTES", coach: "Luis Gonzalez" },
+    { time: "20:30", class: "LOWER BODY: GLUTES", coach: "Misa" }
+  ],
+
+  friday: [
+    { time: "17:20", class: "UPPER BODY: PUSH", coach: "Luis Gonzalez" },
+    { time: "18:30", class: "UPPER BODY: PUSH", coach: "Luis Gonzalez" },
+    { time: "19:30", class: "UPPER BODY: PUSH", coach: "Misa" }
+  ],
+
+  saturday: [
+    { time: "08:10", class: "FULL BODY", coach: "Andrea Dusten" },
+    { time: "09:20", class: "FULL BODY - FOCUS LOWER", coach: "Misa" },
+    { time: "10:30", class: "FULL BODY - FOCUS ABS", coach: "Zazu / Andrea" },
+    { time: "11:30", class: "FULL BODY - FOCUS UPPER", coach: "Luis Gonzalez" }
+  ],
+
+  sunday: [
+    { time: "09:30", class: "FULL BODY", coach: "Misa" },
+    { time: "10:30", class: "FULL BODY / PT", coach: "Andrea Dusten" },
+    { time: "11:30", class: "FULL BODY", coach: "Luis Gonzalez" }
+  ]
+};
+
+function update(){
+
   const now = new Date();
 
-  document.getElementById('time').innerHTML =
+  document.getElementById("time").innerHTML =
     now.toLocaleTimeString('es-MX',{
       hour:'numeric',
       minute:'2-digit'
     });
 
-  document.getElementById('date').innerHTML =
+  document.getElementById("date").innerHTML =
     now.toLocaleDateString('es-MX',{
       weekday:'long',
       day:'numeric',
       month:'long'
     });
+
+  const days = [
+    'sunday','monday','tuesday',
+    'wednesday','thursday',
+    'friday','saturday'
+  ];
+
+  const today = schedule[days[now.getDay()]] || [];
+
+  let nextClass = null;
+
+  for(const c of today){
+
+    const [h,m] = c.time.split(":");
+
+    const classDate = new Date();
+    classDate.setHours(h,m,0);
+
+    if(classDate > now){
+      nextClass = c;
+      break;
+    }
+  }
+
+  const content =
+    document.getElementById("content");
+
+  if(!nextClass){
+
+    content.innerHTML = `
+      <div class="closed">
+        NO HAY MÁS<br>CLASES HOY
+      </div>
+    `;
+
+    return;
+  }
+
+  const [h,m] = nextClass.time.split(":");
+
+  const nextDate = new Date();
+  nextDate.setHours(h,m,0);
+
+  const diff =
+    Math.floor((nextDate-now)/1000);
+
+  const minutes =
+    Math.floor(diff/60);
+
+  const seconds =
+    diff%60;
+
+  const upcoming =
+    today
+      .filter(c => c.time > nextClass.time)
+      .slice(0,3);
+
+  content.innerHTML = `
+    <div class="tag">PRÓXIMA CLASE</div>
+
+    <div class="class">
+      ${nextClass.class}
+    </div>
+
+    <div class="coach">
+      ${nextClass.coach}
+    </div>
+
+    <div class="classTime">
+      ${nextClass.time}
+    </div>
+
+    <div class="countLabel">
+      COMIENZA EN
+    </div>
+
+    <div class="countdown">
+      ${minutes}:${String(seconds).padStart(2,'0')}
+    </div>
+
+    <div class="next">
+      <h2>DESPUÉS</h2>
+
+      ${
+        upcoming.map(c => `
+          <div class="card">
+            <span>${c.time}</span>
+            <span>${c.class}</span>
+          </div>
+        `).join('')
+      }
+    </div>
+  `;
 }
 
-setInterval(updateClock,1000);
-updateClock();
+setInterval(update,1000);
+update();
+
 </script>
 
 </body>
 </html>
+```
