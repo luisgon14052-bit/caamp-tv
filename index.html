@@ -16,109 +16,110 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:'TTHoves',sans-serif;
+  font-family:'TTHoves', sans-serif;
 }
 
 body{
   background:#000;
-  color:#fff;
+  color:white;
+  min-height:100vh;
 }
 
 .screen{
-  width:100vw;
   min-height:100vh;
-  background:#000;
-  padding:70px;
+  padding:90px 70px;
   display:flex;
   flex-direction:column;
+  text-align:center;
 }
 
 .logo{
-  width:280px;
-  height:auto;
-  display:block;
+  width:300px;
   margin:0 auto 50px auto;
 }
 
 .time{
-  font-size:80px;
-  text-align:center;
+  font-size:100px;
+  font-weight:700;
 }
 
 .date{
-  color:#777;
-  font-size:30px;
-  text-align:center;
+  color:#888;
+  font-size:38px;
   margin-top:10px;
-  margin-bottom:80px;
-  text-transform:capitalize;
+}
+
+.line{
+  width:100%;
+  height:1px;
+  background:#222;
+  margin:70px 0;
 }
 
 .label{
   color:#777;
-  letter-spacing:6px;
-  font-size:26px;
-  margin-bottom:20px;
+  font-size:34px;
+  letter-spacing:8px;
+  margin-bottom:40px;
 }
 
 .class{
-  font-size:82px;
-  line-height:0.95;
+  font-size:110px;
+  line-height:0.9;
   text-transform:uppercase;
 }
 
 .coach{
-  margin-top:35px;
-  font-size:42px;
+  margin-top:40px;
+  font-size:55px;
   color:#ddd;
 }
 
 .classTime{
-  margin-top:20px;
-  font-size:70px;
+  margin-top:25px;
+  font-size:95px;
 }
 
 .countLabel{
-  margin-top:50px;
+  margin-top:70px;
   color:#777;
-  font-size:28px;
+  font-size:34px;
 }
 
 .countdown{
-  font-size:120px;
+  font-size:190px;
+  line-height:1;
 }
 
 .next{
-  margin-top:70px;
+  margin-top:80px;
 }
 
 .nextTitle{
   color:#777;
-  font-size:30px;
-  margin-bottom:20px;
+  font-size:34px;
+  margin-bottom:30px;
 }
 
 .card{
   display:flex;
   justify-content:space-between;
+  padding:30px 0;
   border-bottom:1px solid #222;
-  padding:22px 0;
-  font-size:28px;
+  font-size:34px;
 }
 
 .footer{
   margin-top:auto;
   border-top:1px solid #222;
   padding-top:40px;
-  text-align:center;
   color:#666;
-  font-size:26px;
+  font-size:30px;
 }
 
 .closed{
-  font-size:70px;
-  margin-top:100px;
-  text-align:center;
+  font-size:80px;
+  line-height:1.2;
 }
 </style>
 </head>
@@ -130,6 +131,8 @@ body{
 
 <div class="time" id="time"></div>
 <div class="date" id="date"></div>
+
+<div class="line"></div>
 
 <div id="content"></div>
 
@@ -149,35 +152,41 @@ const schedule = {
     { time:"19:30", class:"LOWER BODY: QUADS", coach:"Baca" },
     { time:"20:30", class:"LOWER BODY: QUADS", coach:"Misa" }
   ],
+
   tuesday: [
     { time:"17:20", class:"UPPER BODY: PULL", coach:"Rosella" },
     { time:"18:30", class:"UPPER BODY: PULL", coach:"Andrea Dusten" },
     { time:"19:30", class:"UPPER BODY: PULL", coach:"Sofia DM" },
     { time:"20:30", class:"UPPER BODY: PULL", coach:"Misa" }
   ],
+
   wednesday: [
     { time:"17:20", class:"ALL ABOUT THE CORE", coach:"Luis Gonzalez" },
     { time:"18:30", class:"ALL ABOUT THE CORE", coach:"Sofia DM" },
     { time:"19:30", class:"ALL ABOUT THE CORE", coach:"Caap" },
     { time:"20:30", class:"ALL ABOUT THE CORE", coach:"Caap" }
   ],
+
   thursday: [
     { time:"17:20", class:"LOWER BODY: GLUTES", coach:"Misa" },
     { time:"18:30", class:"LOWER BODY: GLUTES", coach:"Rosella" },
     { time:"19:30", class:"LOWER BODY: GLUTES", coach:"Luis Gonzalez" },
     { time:"20:30", class:"LOWER BODY: GLUTES", coach:"Misa" }
   ],
+
   friday: [
     { time:"17:20", class:"UPPER BODY: PUSH", coach:"Luis Gonzalez" },
     { time:"18:30", class:"UPPER BODY: PUSH", coach:"Luis Gonzalez" },
     { time:"19:30", class:"UPPER BODY: PUSH", coach:"Misa" }
   ],
+
   saturday: [
     { time:"08:10", class:"FULL BODY", coach:"Andrea Dusten" },
     { time:"09:20", class:"FULL BODY - FOCUS LOWER", coach:"Misa" },
     { time:"10:30", class:"FULL BODY - FOCUS ABS", coach:"Zazu / Andrea" },
     { time:"11:30", class:"FULL BODY - FOCUS UPPER", coach:"Luis Gonzalez" }
   ],
+
   sunday: [
     { time:"09:30", class:"FULL BODY", coach:"Misa" },
     { time:"10:30", class:"FULL BODY / PT", coach:"Andrea Dusten" },
@@ -189,23 +198,27 @@ function update(){
 
   const now = new Date();
 
-  document.getElementById('time').innerHTML =
-    now.toLocaleTimeString('es-MX',{
-      hour:'numeric',
-      minute:'2-digit'
+  document.getElementById("time").innerHTML =
+    now.toLocaleTimeString("es-MX",{
+      hour:"numeric",
+      minute:"2-digit"
     });
 
-  document.getElementById('date').innerHTML =
-    now.toLocaleDateString('es-MX',{
-      weekday:'long',
-      day:'numeric',
-      month:'long'
+  document.getElementById("date").innerHTML =
+    now.toLocaleDateString("es-MX",{
+      weekday:"long",
+      day:"numeric",
+      month:"long"
     });
 
   const days = [
-    'sunday','monday','tuesday',
-    'wednesday','thursday',
-    'friday','saturday'
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday"
   ];
 
   const today =
@@ -214,7 +227,8 @@ function update(){
   let nextClass = null;
 
   for(const c of today){
-    const [h,m] = c.time.split(':');
+    const [h,m] = c.time.split(":");
+
     const d = new Date();
     d.setHours(h,m,0,0);
 
@@ -225,19 +239,19 @@ function update(){
   }
 
   const content =
-    document.getElementById('content');
+    document.getElementById("content");
 
   if(!nextClass){
     content.innerHTML = `
       <div class="closed">
-        NO HAY MÁS CLASES HOY
+        NO HAY MÁS<br>CLASES HOY
       </div>
     `;
     return;
   }
 
   const [h,m] =
-    nextClass.time.split(':');
+    nextClass.time.split(":");
 
   const classDate =
     new Date();
@@ -262,7 +276,9 @@ function update(){
       .slice(0,3);
 
   content.innerHTML = `
-    <div class="label">PRÓXIMA CLASE</div>
+    <div class="label">
+      PRÓXIMA CLASE
+    </div>
 
     <div class="class">
       ${nextClass.class}
@@ -281,11 +297,13 @@ function update(){
     </div>
 
     <div class="countdown">
-      ${minutes}:${String(seconds).padStart(2,'0')}
+      ${minutes}:${String(seconds).padStart(2,"0")}
     </div>
 
     <div class="next">
-      <div class="nextTitle">DESPUÉS</div>
+      <div class="nextTitle">
+        DESPUÉS
+      </div>
 
       ${
         upcoming.map(c => `
@@ -293,7 +311,7 @@ function update(){
             <span>${c.time}</span>
             <span>${c.class}</span>
           </div>
-        `).join('')
+        `).join("")
       }
     </div>
   `;
