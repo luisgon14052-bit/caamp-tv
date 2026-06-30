@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,9 +7,9 @@
 <title>CAAMP TV</title>
 
 <style>
-@font-face {
-  font-family: 'TTHoves';
-  src: url('./TT%20Hoves%20Pro%20Trial%20DemiBold.ttf') format('truetype');
+@font-face{
+  font-family:'TTHoves';
+  src:url('./TT%20Hoves%20Pro%20Trial%20DemiBold.ttf') format('truetype');
 }
 
 *{
@@ -20,11 +21,18 @@
 
 body{
   background:#000;
+  color:#fff;
   overflow:hidden;
-  color:white;
 }
 
-/* PANTALLA ROTADA PARA TV VERTICAL */
+.green-mode{
+  background:#00C853;
+}
+
+.green-mode .screen{
+  background:#00C853;
+}
+
 .screen{
   width:1080px;
   height:1920px;
@@ -38,6 +46,7 @@ body{
   transform-origin:top left;
 
   padding:90px 80px;
+
   display:flex;
   flex-direction:column;
   text-align:center;
@@ -54,8 +63,8 @@ body{
 }
 
 .date{
-  color:#888;
   font-size:38px;
+  color:#888;
   margin-top:10px;
 }
 
@@ -127,9 +136,23 @@ body{
   font-size:30px;
 }
 
-.closed{
-  font-size:80px;
-  line-height:1.2;
+.goodbye{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100%;
+}
+
+.goodbye h1{
+  font-size:120px;
+  line-height:1;
+}
+
+.goodbye p{
+  font-size:42px;
+  margin-top:50px;
+  color:#ddd;
 }
 </style>
 </head>
@@ -155,6 +178,7 @@ TRAIN • EVOLVE • BELONG
 </div>
 
 <script>
+
 const schedule = {
   monday: [
     { time:"17:20", class:"LOWER BODY: QUADS", coach:"Rosella" },
@@ -198,85 +222,151 @@ const schedule = {
   ]
 };
 
-function update() {
+function update(){
+
   const now = new Date();
 
-  document.getElementById("time").innerHTML =
-    now.toLocaleTimeString("es-MX", {
-      hour: "numeric",
-      minute: "2-digit"
+  document.getElementById('time').innerHTML =
+    now.toLocaleTimeString('es-MX',{
+      hour:'numeric',
+      minute:'2-digit'
     });
 
-  document.getElementById("date").innerHTML =
-    now.toLocaleDateString("es-MX", {
-      weekday: "long",
-      day: "numeric",
-      month: "long"
+  document.getElementById('date').innerHTML =
+    now.toLocaleDateString('es-MX',{
+      weekday:'long',
+      day:'numeric',
+      month:'long'
     });
 
   const days = [
-    "sunday","monday","tuesday",
-    "wednesday","thursday",
-    "friday","saturday"
+    'sunday','monday','tuesday',
+    'wednesday','thursday',
+    'friday','saturday'
   ];
 
-  const today = schedule[days[now.getDay()]] || [];
+  const today =
+    schedule[days[now.getDay()]] || [];
+
   let nextClass = null;
 
-  for (const c of today) {
-    const [h, m] = c.time.split(":");
-    const d = new Date();
-    d.setHours(h, m, 0, 0);
+  for(const c of today){
 
-    if (d > now) {
+    const [h,m] = c.time.split(':');
+
+    const d = new Date();
+    d.setHours(h,m,0,0);
+
+    if(d > now){
       nextClass = c;
       break;
     }
   }
 
-  const content = document.getElementById("content");
+  const content =
+    document.getElementById('content');
 
-  if (!nextClass) {
+  document.body.classList.remove('green-mode');
+
+  if(!nextClass){
+
     content.innerHTML = `
-      <div class="closed">
-        NO HAY MÁS<br>CLASES HOY
+      <div class="goodbye">
+        <h1>
+          THANK YOU<br>
+          FOR TRAINING
+        </h1>
+
+        <p>
+          SEE YOU TOMORROW
+          <br><br>
+          @caampst
+        </p>
       </div>
     `;
+
     return;
   }
 
-  const [h, m] = nextClass.time.split(":");
-  const classDate = new Date();
-  classDate.setHours(h, m, 0, 0);
+  const [h,m] =
+    nextClass.time.split(':');
 
-  const diff = Math.max(
-    0,
-    Math.floor((classDate - now) / 1000)
-  );
+  const classDate =
+    new Date();
 
-  const minutes = Math.floor(diff / 60);
-  const seconds = diff % 60;
+  classDate.setHours(h,m,0,0);
 
-  content.innerHTML = `
-    <div class="label">PRÓXIMA CLASE</div>
+  const diff =
+    Math.max(
+      0,
+      Math.floor((classDate-now)/1000)
+    );
 
-    <div class="class">${nextClass.class}</div>
+  const minutes =
+    Math.floor(diff/60);
 
-    <div class="coach">${nextClass.coach}</div>
+  const seconds =
+    diff % 60;
 
-    <div class="classTime">${nextClass.time}</div>
+  if(diff <= 300){
+    document.body.classList.add('green-mode');
+  }
 
-    <div class="countLabel">COMIENZA EN</div>
+  if(diff <= 300){
 
-    <div class="countdown">
-      ${minutes}:${String(seconds).padStart(2,"0")}
-    </div>
-  `;
+    content.innerHTML = `
+      <div class="label">
+        PRÓXIMA CLASE
+      </div>
+
+      <div class="class">
+        ${nextClass.class}
+      </div>
+
+      <div class="countLabel">
+        COMIENZA EN
+      </div>
+
+      <div class="countdown">
+        ${minutes}:${String(seconds).padStart(2,'0')}
+      </div>
+    `;
+
+  } else {
+
+    content.innerHTML = `
+      <div class="label">
+        PRÓXIMA CLASE
+      </div>
+
+      <div class="class">
+        ${nextClass.class}
+      </div>
+
+      <div class="coach">
+        ${nextClass.coach}
+      </div>
+
+      <div class="classTime">
+        ${nextClass.time}
+      </div>
+
+      <div class="countLabel">
+        COMIENZA EN
+      </div>
+
+      <div class="countdown">
+        ${minutes}:${String(seconds).padStart(2,'0')}
+      </div>
+    `;
+  }
 }
 
 update();
 setInterval(update,1000);
+
 </script>
 
 </body>
 </html>
+```
