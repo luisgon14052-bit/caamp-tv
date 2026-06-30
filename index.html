@@ -39,10 +39,9 @@ body{
 }
 
 .logo{
-  width:450px;
+  width:420px;
   height:auto;
-  margin-bottom:50px;
-  object-fit:contain;
+  margin-bottom:60px;
 }
 
 .time{
@@ -53,7 +52,8 @@ body{
 .date{
   color:#777;
   font-size:34px;
-  margin-bottom:90px;
+  margin-top:10px;
+  margin-bottom:80px;
   text-transform:capitalize;
 }
 
@@ -126,15 +126,11 @@ body{
 
 </style>
 </head>
-
 <body>
 
 <div class="screen">
 
-<img
-  src="./Copy%20of%20WELCOME!%20(1).png"
-  class="logo"
->
+<img src="./logo.png" class="logo">
 
 <div class="time" id="time"></div>
 <div class="date" id="date"></div>
@@ -218,24 +214,17 @@ function update(){
     });
 
   const days = [
-    'sunday',
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday'
+    'sunday','monday','tuesday',
+    'wednesday','thursday',
+    'friday','saturday'
   ];
 
-  const today =
-    schedule[days[now.getDay()]] || [];
+  const today = schedule[days[now.getDay()]] || [];
 
   let nextClass = null;
 
   for(const c of today){
-
     const [h,m] = c.time.split(':');
-
     const d = new Date();
     d.setHours(h,m,0,0);
 
@@ -245,37 +234,29 @@ function update(){
     }
   }
 
-  const content =
-    document.getElementById('content');
+  const content = document.getElementById('content');
 
   if(!nextClass){
-
     content.innerHTML = `
       <div class="closed">
         NO HAY MÁS<br>CLASES HOY
       </div>
     `;
-
     return;
   }
 
-  const [h,m] =
-    nextClass.time.split(':');
+  const [h,m] = nextClass.time.split(':');
 
   const classDate = new Date();
   classDate.setHours(h,m,0,0);
 
-  const diff =
-    Math.max(
-      0,
-      Math.floor((classDate-now)/1000)
-    );
+  const diff = Math.max(
+    0,
+    Math.floor((classDate-now)/1000)
+  );
 
-  const minutes =
-    Math.floor(diff/60);
-
-  const seconds =
-    diff % 60;
+  const minutes = Math.floor(diff/60);
+  const seconds = diff%60;
 
   const upcoming =
     today
@@ -283,34 +264,22 @@ function update(){
       .slice(0,3);
 
   content.innerHTML = `
-    <div class="label">
-      PRÓXIMA CLASE
-    </div>
+    <div class="label">PRÓXIMA CLASE</div>
 
-    <div class="class">
-      ${nextClass.class}
-    </div>
+    <div class="class">${nextClass.class}</div>
 
-    <div class="coach">
-      ${nextClass.coach}
-    </div>
+    <div class="coach">${nextClass.coach}</div>
 
-    <div class="classTime">
-      ${nextClass.time}
-    </div>
+    <div class="classTime">${nextClass.time}</div>
 
-    <div class="countLabel">
-      COMIENZA EN
-    </div>
+    <div class="countLabel">COMIENZA EN</div>
 
     <div class="countdown">
       ${minutes}:${String(seconds).padStart(2,'0')}
     </div>
 
     <div class="next">
-      <div class="nextTitle">
-        DESPUÉS
-      </div>
+      <div class="nextTitle">DESPUÉS</div>
 
       ${
         upcoming.map(c => `
