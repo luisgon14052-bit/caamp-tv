@@ -16,37 +16,47 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:'TTHoves', sans-serif;
+  font-family:'TTHoves',sans-serif;
 }
 
 body{
   background:#000;
-  color:white;
-  min-height:100vh;
+  overflow:hidden;
 }
 
+/* PANTALLA ROTADA PARA TV VERTICAL */
 .screen{
-  min-height:100vh;
-  padding:90px 70px;
+  width:1080px;
+  height:1920px;
+  background:#000;
+
+  position:absolute;
+  top:100%;
+  left:0;
+
+  transform:rotate(-90deg);
+  transform-origin:top left;
+
+  padding:90px 80px;
   display:flex;
   flex-direction:column;
   text-align:center;
 }
 
 .logo{
-  width:300px;
-  margin:0 auto 50px auto;
+  width:320px;
+  margin:0 auto 60px auto;
 }
 
 .time{
-  font-size:100px;
+  font-size:120px;
   font-weight:700;
 }
 
 .date{
-  color:#888;
-  font-size:38px;
-  margin-top:10px;
+  font-size:40px;
+  color:#777;
+  margin-top:15px;
 }
 
 .line{
@@ -60,11 +70,11 @@ body{
   color:#777;
   font-size:34px;
   letter-spacing:8px;
-  margin-bottom:40px;
+  margin-bottom:35px;
 }
 
 .class{
-  font-size:110px;
+  font-size:115px;
   line-height:0.9;
   text-transform:uppercase;
 }
@@ -76,8 +86,8 @@ body{
 }
 
 .classTime{
-  margin-top:25px;
-  font-size:95px;
+  margin-top:30px;
+  font-size:100px;
 }
 
 .countLabel{
@@ -98,14 +108,14 @@ body{
 .nextTitle{
   color:#777;
   font-size:34px;
-  margin-bottom:30px;
+  margin-bottom:25px;
 }
 
 .card{
   display:flex;
   justify-content:space-between;
-  padding:30px 0;
   border-bottom:1px solid #222;
+  padding:30px 0;
   font-size:34px;
 }
 
@@ -118,8 +128,8 @@ body{
 }
 
 .closed{
-  font-size:80px;
-  line-height:1.2;
+  font-size:90px;
+  line-height:1.1;
 }
 </style>
 </head>
@@ -212,17 +222,12 @@ function update(){
     });
 
   const days = [
-    "sunday",
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday"
+    "sunday","monday","tuesday",
+    "wednesday","thursday",
+    "friday","saturday"
   ];
 
-  const today =
-    schedule[days[now.getDay()]] || [];
+  const today = schedule[days[now.getDay()]] || [];
 
   let nextClass = null;
 
@@ -238,8 +243,7 @@ function update(){
     }
   }
 
-  const content =
-    document.getElementById("content");
+  const content = document.getElementById("content");
 
   if(!nextClass){
     content.innerHTML = `
@@ -250,12 +254,9 @@ function update(){
     return;
   }
 
-  const [h,m] =
-    nextClass.time.split(":");
+  const [h,m] = nextClass.time.split(":");
 
-  const classDate =
-    new Date();
-
+  const classDate = new Date();
   classDate.setHours(h,m,0,0);
 
   const diff =
@@ -264,11 +265,8 @@ function update(){
       Math.floor((classDate-now)/1000)
     );
 
-  const minutes =
-    Math.floor(diff/60);
-
-  const seconds =
-    diff % 60;
+  const minutes = Math.floor(diff/60);
+  const seconds = diff % 60;
 
   const upcoming =
     today
@@ -276,34 +274,22 @@ function update(){
       .slice(0,3);
 
   content.innerHTML = `
-    <div class="label">
-      PRÓXIMA CLASE
-    </div>
+    <div class="label">PRÓXIMA CLASE</div>
 
-    <div class="class">
-      ${nextClass.class}
-    </div>
+    <div class="class">${nextClass.class}</div>
 
-    <div class="coach">
-      ${nextClass.coach}
-    </div>
+    <div class="coach">${nextClass.coach}</div>
 
-    <div class="classTime">
-      ${nextClass.time}
-    </div>
+    <div class="classTime">${nextClass.time}</div>
 
-    <div class="countLabel">
-      COMIENZA EN
-    </div>
+    <div class="countLabel">COMIENZA EN</div>
 
     <div class="countdown">
-      ${minutes}:${String(seconds).padStart(2,"0")}
+      ${minutes}:${String(seconds).padStart(2,'0')}
     </div>
 
     <div class="next">
-      <div class="nextTitle">
-        DESPUÉS
-      </div>
+      <div class="nextTitle">DESPUÉS</div>
 
       ${
         upcoming.map(c => `
