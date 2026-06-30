@@ -22,19 +22,19 @@
 body{
   background:#000;
   overflow:hidden;
+  color:white;
 }
 
-/* PANTALLA ROTADA PARA TV VERTICAL */
 .screen{
   width:1080px;
   height:1920px;
   background:#000;
 
   position:absolute;
-  top:100%;
-  left:0;
+  top:0;
+  left:100%;
 
-  transform:rotate(-90deg);
+  transform:rotate(90deg);
   transform-origin:top left;
 
   padding:90px 80px;
@@ -44,19 +44,19 @@ body{
 }
 
 .logo{
-  width:320px;
-  margin:0 auto 60px auto;
+  width:300px;
+  margin:0 auto 50px auto;
 }
 
 .time{
-  font-size:120px;
+  font-size:100px;
   font-weight:700;
 }
 
 .date{
-  font-size:40px;
-  color:#777;
-  margin-top:15px;
+  color:#888;
+  font-size:38px;
+  margin-top:10px;
 }
 
 .line{
@@ -70,11 +70,11 @@ body{
   color:#777;
   font-size:34px;
   letter-spacing:8px;
-  margin-bottom:35px;
+  margin-bottom:40px;
 }
 
 .class{
-  font-size:115px;
+  font-size:110px;
   line-height:0.9;
   text-transform:uppercase;
 }
@@ -86,8 +86,8 @@ body{
 }
 
 .classTime{
-  margin-top:30px;
-  font-size:100px;
+  margin-top:25px;
+  font-size:95px;
 }
 
 .countLabel{
@@ -108,14 +108,14 @@ body{
 .nextTitle{
   color:#777;
   font-size:34px;
-  margin-bottom:25px;
+  margin-bottom:30px;
 }
 
 .card{
   display:flex;
   justify-content:space-between;
-  border-bottom:1px solid #222;
   padding:30px 0;
+  border-bottom:1px solid #222;
   font-size:34px;
 }
 
@@ -128,11 +128,12 @@ body{
 }
 
 .closed{
-  font-size:90px;
-  line-height:1.1;
+  font-size:80px;
+  line-height:1.2;
 }
 </style>
 </head>
+
 <body>
 
 <div class="screen">
@@ -154,7 +155,6 @@ TRAIN • EVOLVE • BELONG
 </div>
 
 <script>
-
 const schedule = {
   monday: [
     { time:"17:20", class:"LOWER BODY: QUADS", coach:"Rosella" },
@@ -162,41 +162,35 @@ const schedule = {
     { time:"19:30", class:"LOWER BODY: QUADS", coach:"Baca" },
     { time:"20:30", class:"LOWER BODY: QUADS", coach:"Misa" }
   ],
-
   tuesday: [
     { time:"17:20", class:"UPPER BODY: PULL", coach:"Rosella" },
     { time:"18:30", class:"UPPER BODY: PULL", coach:"Andrea Dusten" },
     { time:"19:30", class:"UPPER BODY: PULL", coach:"Sofia DM" },
     { time:"20:30", class:"UPPER BODY: PULL", coach:"Misa" }
   ],
-
   wednesday: [
     { time:"17:20", class:"ALL ABOUT THE CORE", coach:"Luis Gonzalez" },
     { time:"18:30", class:"ALL ABOUT THE CORE", coach:"Sofia DM" },
     { time:"19:30", class:"ALL ABOUT THE CORE", coach:"Caap" },
     { time:"20:30", class:"ALL ABOUT THE CORE", coach:"Caap" }
   ],
-
   thursday: [
     { time:"17:20", class:"LOWER BODY: GLUTES", coach:"Misa" },
     { time:"18:30", class:"LOWER BODY: GLUTES", coach:"Rosella" },
     { time:"19:30", class:"LOWER BODY: GLUTES", coach:"Luis Gonzalez" },
     { time:"20:30", class:"LOWER BODY: GLUTES", coach:"Misa" }
   ],
-
   friday: [
     { time:"17:20", class:"UPPER BODY: PUSH", coach:"Luis Gonzalez" },
     { time:"18:30", class:"UPPER BODY: PUSH", coach:"Luis Gonzalez" },
     { time:"19:30", class:"UPPER BODY: PUSH", coach:"Misa" }
   ],
-
   saturday: [
     { time:"08:10", class:"FULL BODY", coach:"Andrea Dusten" },
     { time:"09:20", class:"FULL BODY - FOCUS LOWER", coach:"Misa" },
     { time:"10:30", class:"FULL BODY - FOCUS ABS", coach:"Zazu / Andrea" },
     { time:"11:30", class:"FULL BODY - FOCUS UPPER", coach:"Luis Gonzalez" }
   ],
-
   sunday: [
     { time:"09:30", class:"FULL BODY", coach:"Misa" },
     { time:"10:30", class:"FULL BODY / PT", coach:"Andrea Dusten" },
@@ -205,35 +199,28 @@ const schedule = {
 };
 
 function update(){
-
   const now = new Date();
 
   document.getElementById("time").innerHTML =
-    now.toLocaleTimeString("es-MX",{
+    now.toLocaleTimeString("es-MX", {
       hour:"numeric",
       minute:"2-digit"
     });
 
   document.getElementById("date").innerHTML =
-    now.toLocaleDateString("es-MX",{
+    now.toLocaleDateString("es-MX", {
       weekday:"long",
       day:"numeric",
       month:"long"
     });
 
-  const days = [
-    "sunday","monday","tuesday",
-    "wednesday","thursday",
-    "friday","saturday"
-  ];
-
+  const days = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
   const today = schedule[days[now.getDay()]] || [];
 
   let nextClass = null;
 
   for(const c of today){
     const [h,m] = c.time.split(":");
-
     const d = new Date();
     d.setHours(h,m,0,0);
 
@@ -259,19 +246,17 @@ function update(){
   const classDate = new Date();
   classDate.setHours(h,m,0,0);
 
-  const diff =
-    Math.max(
-      0,
-      Math.floor((classDate-now)/1000)
-    );
+  const diff = Math.max(
+    0,
+    Math.floor((classDate-now)/1000)
+  );
 
   const minutes = Math.floor(diff/60);
   const seconds = diff % 60;
 
-  const upcoming =
-    today
-      .filter(c => c.time > nextClass.time)
-      .slice(0,3);
+  const upcoming = today
+    .filter(c => c.time > nextClass.time)
+    .slice(0,3);
 
   content.innerHTML = `
     <div class="label">PRÓXIMA CLASE</div>
@@ -305,7 +290,6 @@ function update(){
 
 update();
 setInterval(update,1000);
-
 </script>
 
 </body>
