@@ -376,8 +376,8 @@ function update(){
   const today =
     schedule[days[now.getDay()]] || [];
 
-  const cycle = Math.floor(Date.now()/90000)%3;
-
+const elapsed = Math.floor(Date.now()/1000) % 300;
+  
   let nextClass = null;
 
   for(const c of today){
@@ -438,18 +438,25 @@ function update(){
   }
 
   
-if(cycle === 2){
+if(
+  (elapsed >= 120 && elapsed < 150) ||
+  (elapsed >= 270)
+){
 
-  content.innerHTML = '';
-
-  if(!document.getElementById('logoRain').classList.contains('show')){
+  if(
+    !document
+      .getElementById('logoRain')
+      .classList.contains('show')
+  ){
     showLogoRain();
   }
+
+  content.innerHTML = '';
 
   return;
 }
 
-if(cycle === 1){
+if(elapsed >= 150 && elapsed < 270){
 
   let list = `
     <div class="todayTitle">
