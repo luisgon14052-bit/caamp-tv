@@ -7,70 +7,76 @@
 <title>CAAMP TV</title>
 
 <style>
+
+@font-face {
+  font-family: 'TTHoves';
+  src: url('./TT%20Hoves%20Pro%20Trial%20DemiBold.ttf') format('truetype');
+}
+
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:Arial, Helvetica, sans-serif;
+  font-family:'TTHoves', sans-serif;
 }
 
 body{
   background:#000;
-  color:white;
-  width:100vw;
-  height:100vh;
-  overflow:hidden;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
 }
 
-.container{
-  height:100vh;
-  padding:70px;
+.screen{
+  width:1080px;
+  height:1920px;
+  background:#000;
+  padding:80px;
   display:flex;
   flex-direction:column;
 }
 
 .logo{
-  font-size:100px;
-  font-weight:900;
-  letter-spacing:4px;
+  font-size:110px;
+  letter-spacing:10px;
 }
 
 .time{
   font-size:90px;
-  margin-top:40px;
-  font-weight:700;
+  margin-top:50px;
 }
 
 .date{
   color:#777;
-  font-size:32px;
-  margin-bottom:70px;
+  font-size:34px;
+  margin-bottom:80px;
+  text-transform:capitalize;
 }
 
-.tag{
-  color:#999;
-  letter-spacing:5px;
-  font-size:26px;
+.label{
+  color:#888;
+  letter-spacing:6px;
+  font-size:28px;
   margin-bottom:20px;
 }
 
 .class{
-  font-size:90px;
-  font-weight:900;
+  font-size:92px;
   line-height:0.95;
   text-transform:uppercase;
 }
 
 .coach{
   margin-top:35px;
-  font-size:42px;
+  font-size:46px;
   color:#ddd;
 }
 
 .classTime{
-  margin-top:15px;
   font-size:80px;
-  font-weight:700;
+  margin-top:15px;
 }
 
 .countLabel{
@@ -80,45 +86,46 @@ body{
 }
 
 .countdown{
-  font-size:120px;
-  font-weight:900;
+  font-size:140px;
 }
 
 .next{
   margin-top:60px;
 }
 
-.next h2{
-  font-size:28px;
-  color:#999;
+.nextTitle{
+  color:#888;
+  font-size:30px;
   margin-bottom:20px;
 }
 
 .card{
   display:flex;
   justify-content:space-between;
-  padding:18px 0;
   border-bottom:1px solid #222;
-  font-size:26px;
+  padding:22px 0;
+  font-size:30px;
 }
 
 .footer{
   margin-top:auto;
-  color:#666;
+  border-top:1px solid #222;
+  padding-top:40px;
   text-align:center;
-  font-size:26px;
+  color:#666;
+  font-size:28px;
 }
 
 .closed{
-  font-size:70px;
-  font-weight:900;
+  font-size:80px;
   margin-top:100px;
 }
 </style>
 </head>
+
 <body>
 
-<div class="container">
+<div class="screen">
 
 <div class="logo">CAAMP</div>
 
@@ -129,7 +136,7 @@ body{
 
 <div class="footer">
 @caampst<br><br>
-TRAIN. EVOLVE. BELONG.
+TRAIN • EVOLVE • BELONG
 </div>
 
 </div>
@@ -137,51 +144,52 @@ TRAIN. EVOLVE. BELONG.
 <script>
 
 const schedule = {
+
   monday: [
-    { time: "17:20", class: "LOWER BODY: QUADS", coach: "Rosella" },
-    { time: "18:30", class: "LOWER BODY: QUADS", coach: "Andrea Dusten" },
-    { time: "19:30", class: "LOWER BODY: QUADS", coach: "Baca" },
-    { time: "20:30", class: "LOWER BODY: QUADS", coach: "Misa" }
+    { time:"17:20", class:"LOWER BODY: QUADS", coach:"Rosella" },
+    { time:"18:30", class:"LOWER BODY: QUADS", coach:"Andrea Dusten" },
+    { time:"19:30", class:"LOWER BODY: QUADS", coach:"Baca" },
+    { time:"20:30", class:"LOWER BODY: QUADS", coach:"Misa" }
   ],
 
   tuesday: [
-    { time: "17:20", class: "UPPER BODY: PULL", coach: "Rosella" },
-    { time: "18:30", class: "UPPER BODY: PULL", coach: "Andrea Dusten" },
-    { time: "19:30", class: "UPPER BODY: PULL", coach: "Sofia DM" },
-    { time: "20:30", class: "UPPER BODY: PULL", coach: "Misa" }
+    { time:"17:20", class:"UPPER BODY: PULL", coach:"Rosella" },
+    { time:"18:30", class:"UPPER BODY: PULL", coach:"Andrea Dusten" },
+    { time:"19:30", class:"UPPER BODY: PULL", coach:"Sofia DM" },
+    { time:"20:30", class:"UPPER BODY: PULL", coach:"Misa" }
   ],
 
   wednesday: [
-    { time: "17:20", class: "ALL ABOUT THE CORE", coach: "Luis Gonzalez" },
-    { time: "18:30", class: "ALL ABOUT THE CORE", coach: "Sofia DM" },
-    { time: "19:30", class: "ALL ABOUT THE CORE", coach: "Caap" },
-    { time: "20:30", class: "ALL ABOUT THE CORE", coach: "Caap" }
+    { time:"17:20", class:"ALL ABOUT THE CORE", coach:"Luis Gonzalez" },
+    { time:"18:30", class:"ALL ABOUT THE CORE", coach:"Sofia DM" },
+    { time:"19:30", class:"ALL ABOUT THE CORE", coach:"Caap" },
+    { time:"20:30", class:"ALL ABOUT THE CORE", coach:"Caap" }
   ],
 
   thursday: [
-    { time: "17:20", class: "LOWER BODY: GLUTES", coach: "Misa" },
-    { time: "18:30", class: "LOWER BODY: GLUTES", coach: "Rosella" },
-    { time: "19:30", class: "LOWER BODY: GLUTES", coach: "Luis Gonzalez" },
-    { time: "20:30", class: "LOWER BODY: GLUTES", coach: "Misa" }
+    { time:"17:20", class:"LOWER BODY: GLUTES", coach:"Misa" },
+    { time:"18:30", class:"LOWER BODY: GLUTES", coach:"Rosella" },
+    { time:"19:30", class:"LOWER BODY: GLUTES", coach:"Luis Gonzalez" },
+    { time:"20:30", class:"LOWER BODY: GLUTES", coach:"Misa" }
   ],
 
   friday: [
-    { time: "17:20", class: "UPPER BODY: PUSH", coach: "Luis Gonzalez" },
-    { time: "18:30", class: "UPPER BODY: PUSH", coach: "Luis Gonzalez" },
-    { time: "19:30", class: "UPPER BODY: PUSH", coach: "Misa" }
+    { time:"17:20", class:"UPPER BODY: PUSH", coach:"Luis Gonzalez" },
+    { time:"18:30", class:"UPPER BODY: PUSH", coach:"Luis Gonzalez" },
+    { time:"19:30", class:"UPPER BODY: PUSH", coach:"Misa" }
   ],
 
   saturday: [
-    { time: "08:10", class: "FULL BODY", coach: "Andrea Dusten" },
-    { time: "09:20", class: "FULL BODY - FOCUS LOWER", coach: "Misa" },
-    { time: "10:30", class: "FULL BODY - FOCUS ABS", coach: "Zazu / Andrea" },
-    { time: "11:30", class: "FULL BODY - FOCUS UPPER", coach: "Luis Gonzalez" }
+    { time:"08:10", class:"FULL BODY", coach:"Andrea Dusten" },
+    { time:"09:20", class:"FULL BODY - FOCUS LOWER", coach:"Misa" },
+    { time:"10:30", class:"FULL BODY - FOCUS ABS", coach:"Zazu / Andrea" },
+    { time:"11:30", class:"FULL BODY - FOCUS UPPER", coach:"Luis Gonzalez" }
   ],
 
   sunday: [
-    { time: "09:30", class: "FULL BODY", coach: "Misa" },
-    { time: "10:30", class: "FULL BODY / PT", coach: "Andrea Dusten" },
-    { time: "11:30", class: "FULL BODY", coach: "Luis Gonzalez" }
+    { time:"09:30", class:"FULL BODY", coach:"Misa" },
+    { time:"10:30", class:"FULL BODY / PT", coach:"Andrea Dusten" },
+    { time:"11:30", class:"FULL BODY", coach:"Luis Gonzalez" }
   ]
 };
 
@@ -189,13 +197,13 @@ function update(){
 
   const now = new Date();
 
-  document.getElementById("time").innerHTML =
+  document.getElementById('time').innerHTML =
     now.toLocaleTimeString('es-MX',{
       hour:'numeric',
       minute:'2-digit'
     });
 
-  document.getElementById("date").innerHTML =
+  document.getElementById('date').innerHTML =
     now.toLocaleDateString('es-MX',{
       weekday:'long',
       day:'numeric',
@@ -208,44 +216,47 @@ function update(){
     'friday','saturday'
   ];
 
-  const today = schedule[days[now.getDay()]] || [];
+  const today =
+    schedule[days[now.getDay()]] || [];
 
   let nextClass = null;
 
   for(const c of today){
 
-    const [h,m] = c.time.split(":");
+    const [h,m] = c.time.split(':');
 
-    const classDate = new Date();
-    classDate.setHours(h,m,0);
+    const d = new Date();
+    d.setHours(h,m,0,0);
 
-    if(classDate > now){
+    if(d > now){
       nextClass = c;
       break;
     }
   }
 
   const content =
-    document.getElementById("content");
+    document.getElementById('content');
 
   if(!nextClass){
 
     content.innerHTML = `
       <div class="closed">
-        NO HAY MÁS<br>CLASES HOY
+        NO HAY MÁS CLASES HOY
       </div>
     `;
-
     return;
   }
 
-  const [h,m] = nextClass.time.split(":");
+  const [h,m] =
+    nextClass.time.split(':');
 
-  const nextDate = new Date();
-  nextDate.setHours(h,m,0);
+  const classDate = new Date();
+  classDate.setHours(h,m,0,0);
 
   const diff =
-    Math.floor((nextDate-now)/1000);
+    Math.floor(
+      (classDate-now)/1000
+    );
 
   const minutes =
     Math.floor(diff/60);
@@ -259,7 +270,9 @@ function update(){
       .slice(0,3);
 
   content.innerHTML = `
-    <div class="tag">PRÓXIMA CLASE</div>
+    <div class="label">
+      PRÓXIMA CLASE
+    </div>
 
     <div class="class">
       ${nextClass.class}
@@ -282,7 +295,9 @@ function update(){
     </div>
 
     <div class="next">
-      <h2>DESPUÉS</h2>
+      <div class="nextTitle">
+        DESPUÉS
+      </div>
 
       ${
         upcoming.map(c => `
@@ -296,8 +311,8 @@ function update(){
   `;
 }
 
-setInterval(update,1000);
 update();
+setInterval(update,1000);
 
 </script>
 
