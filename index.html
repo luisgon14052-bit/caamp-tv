@@ -387,24 +387,7 @@ function update(){
     `;
   }
 
-<div class="coach">
-  ${nextClass.coach}
-</div>
 
-      <div class="classTime">
-        ${new Date(`2000-01-01T${nextClass.time}`).toLocaleTimeString('es-MX',{
-          hour:'numeric',
-          minute:'2-digit'
-        })}
-      </div>
-
-      <div class="countLabel">
-        COMIENZA EN
-      </div>
-
-      <div class="countdown">
-        ${countdownText}
-      </div>
     `;
   }
 }
