@@ -39,26 +39,28 @@ body{
 }
 
 .logo{
-  font-size:110px;
-  letter-spacing:10px;
+  width:450px;
+  height:auto;
+  margin-bottom:50px;
+  object-fit:contain;
 }
 
 .time{
   font-size:90px;
-  margin-top:50px;
+  font-weight:700;
 }
 
 .date{
   color:#777;
   font-size:34px;
-  margin-bottom:80px;
+  margin-bottom:90px;
   text-transform:capitalize;
 }
 
 .label{
-  color:#888;
+  color:#777;
+  font-size:30px;
   letter-spacing:6px;
-  font-size:28px;
   margin-bottom:20px;
 }
 
@@ -76,13 +78,13 @@ body{
 
 .classTime{
   font-size:80px;
-  margin-top:15px;
+  margin-top:20px;
 }
 
 .countLabel{
-  margin-top:40px;
+  margin-top:50px;
   color:#777;
-  font-size:28px;
+  font-size:30px;
 }
 
 .countdown{
@@ -90,11 +92,11 @@ body{
 }
 
 .next{
-  margin-top:60px;
+  margin-top:70px;
 }
 
 .nextTitle{
-  color:#888;
+  color:#777;
   font-size:30px;
   margin-bottom:20px;
 }
@@ -119,7 +121,9 @@ body{
 .closed{
   font-size:80px;
   margin-top:100px;
+  line-height:1.1;
 }
+
 </style>
 </head>
 
@@ -127,7 +131,10 @@ body{
 
 <div class="screen">
 
-<div class="logo">CAAMP</div>
+<img
+  src="./Copy%20of%20WELCOME!%20(1).png"
+  class="logo"
+>
 
 <div class="time" id="time"></div>
 <div class="date" id="date"></div>
@@ -211,9 +218,13 @@ function update(){
     });
 
   const days = [
-    'sunday','monday','tuesday',
-    'wednesday','thursday',
-    'friday','saturday'
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday'
   ];
 
   const today =
@@ -241,9 +252,10 @@ function update(){
 
     content.innerHTML = `
       <div class="closed">
-        NO HAY MÁS CLASES HOY
+        NO HAY MÁS<br>CLASES HOY
       </div>
     `;
+
     return;
   }
 
@@ -254,15 +266,16 @@ function update(){
   classDate.setHours(h,m,0,0);
 
   const diff =
-    Math.floor(
-      (classDate-now)/1000
+    Math.max(
+      0,
+      Math.floor((classDate-now)/1000)
     );
 
   const minutes =
     Math.floor(diff/60);
 
   const seconds =
-    diff%60;
+    diff % 60;
 
   const upcoming =
     today
