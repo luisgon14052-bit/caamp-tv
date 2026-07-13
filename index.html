@@ -1,6 +1,7 @@
 ```html
 <!DOCTYPE html>
 <html lang="es">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -253,94 +254,28 @@ TRAIN • EVOLVE • BELONG
 
 <script>
 
-const schedule = {
-  monday: [
-    { time:"05:05", class:"LOWER BODY: QUADS", coach:"Andrea Dusten", photo:"6.jpg" },
-    { time:"06:15", class:"LOWER BODY: QUADS", coach:"Andrea Dusten", photo:"6.jpg" },
-    { time:"07:30", class:"LOWER BODY: QUADS", coach:"Luis Gonzalez", photo:"7.jpg" },
-    { time:"08:30", class:"LOWER BODY: QUADS", coach:"Luis Gonzalez", photo:"7.jpg" },
-    { time:"09:30", class:"LOWER BODY: QUADS", coach:"Caap", photo:"5.jpg" },
-    { time:"17:20", class:"LOWER BODY: QUADS", coach:"Misa", photo:"4.jpg" },
-    { time:"18:30", class:"LOWER BODY: QUADS", coach:"Baca", photo:"1.jpg" },
-    { time:"19:30", class:"LOWER BODY: QUADS", coach:"Caap", photo:"5.jpg" },
-    { time:"20:30", class:"LOWER BODY: QUADS", coach:"Caap", photo:"5.jpg" }
-  ],
+const supabase = window.supabase.createClient(
+  "https://pfdzieimosggmzmwikpj.supabase.co",
+  "TU_PUBLIC_ANON_KEY"
+);
 
-  tuesday: [
-    { time:"05:05", class:"UPPER BODY: PULL", coach:"Baca", photo:"1.jpg" },
-    { time:"06:15", class:"UPPER BODY: PULL", coach:"Misa", photo:"4.jpg" },
-    { time:"07:30", class:"UPPER BODY: PULL", coach:"Caap", photo:"5.jpg" },
-    { time:"08:30", class:"UPPER BODY: PULL", coach:"Caap", photo:"5.jpg" },
-    { time:"09:30", class:"UPPER BODY: PULL", coach:"Luis Gonzalez", photo:"7.jpg" },
-    { time:"17:20", class:"UPPER BODY: PULL", coach:"Rosella", photo:"2.jpg" },
-    { time:"18:30", class:"UPPER BODY: PULL", coach:"Andrea Dusten", photo:"6.jpg" },
-    { time:"19:30", class:"UPPER BODY: PULL", coach:"Sofia DM", photo:"3.jpg" },
-    { time:"20:30", class:"UPPER BODY: PULL", coach:"Misa", photo:"4.jpg" }
-  ],
+let schedule = {};
 
-  wednesday: [
-    { time:"05:05", class:"ALL ABOUT THE CORE", coach:"Rosella", photo:"2.jpg" },
-    { time:"06:15", class:"ALL ABOUT THE CORE", coach:"Caap", photo:"5.jpg" },
-    { time:"07:30", class:"ALL ABOUT THE CORE", coach:"Caap", photo:"5.jpg" },
-    { time:"08:30", class:"ALL ABOUT THE CORE", coach:"Luis Gonzalez", photo:"7.jpg" },
-    { time:"09:30", class:"ALL ABOUT THE CORE", coach:"Luis Gonzalez", photo:"7.jpg" },
-    { time:"17:20", class:"ALL ABOUT THE CORE", coach:"Andrea Dusten", photo:"6.jpg" },
-    { time:"18:30", class:"ALL ABOUT THE CORE", coach:"Baca", photo:"1.jpg" },
-    {
-      time:"19:30",
-      class:"ALL ABOUT THE CORE",
-      coach:"Sofia DM & Zazu",
-      photo:["3.jpg","8.jpg"]
-    },
-    { time:"20:30", class:"ALL ABOUT THE CORE", coach:"Caap", photo:"5.jpg" }
-  ],
+  async function loadSchedule(){
 
-  thursday: [
-    { time:"05:05", class:"LOWER BODY: GLUTES", coach:"Misa", photo:"4.jpg" },
-    { time:"06:15", class:"LOWER BODY: GLUTES", coach:"Misa", photo:"4.jpg" },
-    { time:"07:30", class:"LOWER BODY: GLUTES", coach:"Luis Gonzalez", photo:"7.jpg" },
-    { time:"08:30", class:"LOWER BODY: GLUTES", coach:"Luis Gonzalez", photo:"7.jpg" },
-    { time:"09:30", class:"LOWER BODY: GLUTES", coach:"Rosella", photo:"2.jpg" },
-    { time:"17:20", class:"LOWER BODY: GLUTES", coach:"Rosella", photo:"2.jpg" },
-    { time:"18:30", class:"LOWER BODY: GLUTES", coach:"Sofia DM", photo:"3.jpg" },
-    { time:"19:30", class:"LOWER BODY: GLUTES", coach:"Baca", photo:"1.jpg" },
-    { time:"20:30", class:"LOWER BODY: GLUTES", coach:"Caap", photo:"5.jpg" }
-  ],
+  const { data } = await supabase
+    .from("schedule_items")
+    .select(`
+      day,
+      start_time,
+      classes(name,color),
+      coaches(name)
+    `)
+    .order("start_time");
 
-  friday: [
-    { time:"05:05", class:"UPPER BODY: PUSH", coach:"Baca", photo:"1.jpg" },
-    { time:"06:15", class:"UPPER BODY: PUSH", coach:"Andrea Dusten", photo:"6.jpg" },
-    { time:"07:30", class:"UPPER BODY: PUSH", coach:"Andrea Dusten", photo:"6.jpg" },
-    { time:"08:30", class:"UPPER BODY: PUSH", coach:"Rosella", photo:"2.jpg" },
-    { time:"09:30", class:"UPPER BODY: PUSH", coach:"Caap", photo:"5.jpg" },
-    { time:"17:20", class:"UPPER BODY: PUSH", coach:"Misa", photo:"4.jpg" },
-    { time:"18:30", class:"UPPER BODY: PUSH", coach:"Caap", photo:"5.jpg" },
-    { time:"19:30", class:"UPPER BODY: PUSH", coach:"Caap", photo:"5.jpg" }
-  ],
+  console.log(data);
 
-  saturday: [
-    { time:"08:15", class:"FULL BODY", coach:"Caap", photo:"5.jpg" },
-    { time:"09:30", class:"FULL BODY - FOCUS LOWER", coach:"Misa", photo:"4.jpg" },
-    {
-      time:"10:30",
-      class:"FULL BODY",
-      coach:"Caap & Zazu",
-      photo:["5.jpg","8.jpg"]
-    },
-    { time:"11:30", class:"FULL BODY", coach:"Baca", photo:"1.jpg" }
-  ],
-
-  sunday: [
-    { time:"09:30", class:"SCULPT", coach:"Baca", photo:"1.jpg" },
-    {
-      time:"10:30",
-      class:"FULL BODY",
-      coach:"Luis Gonzalez & Zazu",
-      photo:["7.jpg","8.jpg"]
-    },
-    { time:"11:30", class:"FULL BODY", coach:"Caap", photo:"5.jpg" }
-  ]
-};
+}
 
 
 function update(){
