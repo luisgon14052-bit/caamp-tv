@@ -1,6 +1,6 @@
 async function getNextClass() {
 
-    const { data: week, error: weekError } = await supabase
+    const { data: week, error: weekError } = await window.sb
         .from("weekly_schedules")
         .select("id")
         .eq("published", true)
@@ -11,7 +11,7 @@ async function getNextClass() {
         return null;
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await window.sb
         .from("schedule_items")
         .select(`
             start_time,
