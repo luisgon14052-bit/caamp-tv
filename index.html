@@ -253,7 +253,7 @@ TRAIN • EVOLVE • BELONG
 </div>
 
 <script>
-const supabase = window.supabase.createClient(
+const supabaseClient = = window.supabase.createClient(
   "https://pfdzieimosggmzmwikpj.supabase.co",
   "sb_publishable_aDhVtFxdRCCBgU-NEYozhw_JUrjmYlT"
 );
@@ -262,7 +262,7 @@ let schedule = {};
 
   async function loadSchedule(){
 
-  const { data: week, error: weekError } = await supabase
+  const { data: week, error: weekError } = await supabaseClient
     .from("weekly_schedules")
     .select("id")
     .eq("published", true)
@@ -273,7 +273,7 @@ let schedule = {};
     return;
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("schedule_items")
     .select(`
       day,
