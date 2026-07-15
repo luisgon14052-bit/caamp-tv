@@ -32,5 +32,7 @@ async function getNextClass() {
     // Por ahora usamos la primera clase.
     // Después haremos que encuentre automáticamente
     // la siguiente según la hora actual.
+
+    console.log("HORARIO:", data);
     return data[0];
 }
