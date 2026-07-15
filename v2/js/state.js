@@ -1,11 +1,9 @@
-const tvState = {
+const State = {
 
-    mode: "welcome",
+    nextClass:null,
 
-    nextClass: null,
+    today:[],
 
-    today: [],
-
-    media: []
+    media:[],
 
 };
