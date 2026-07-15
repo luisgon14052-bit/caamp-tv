@@ -314,11 +314,39 @@ let schedule = {};
     if(!key) return;
 
     schedule[key].push({
-      time:item.start_time,
-      class:item.classes?.name ?? "",
-      coach:item.coaches?.name ?? "",
-      photo:"./logo.png"
-    });
+  time: item.start_time,
+
+  title: item.classes?.name ?? "",
+
+  class: (() => {
+    switch (item.day) {
+      case "Lunes":
+        return "Lower Body • Quads";
+
+      case "Martes":
+        return "Upper Body • Pull Day";
+
+      case "Miércoles":
+        return "All About the Core";
+
+      case "Jueves":
+        return "Lower Body • Glutes";
+
+      case "Viernes":
+        return "Upper Body • Push Day";
+
+      case "Sábado":
+      case "Domingo":
+        return "Full Body";
+
+      default:
+        return "";
+    }
+  })(),
+
+  coach: item.coaches?.name ?? "",
+  photo: "./logo.png"
+});
   });
 
   console.log("Horario cargado", schedule);
