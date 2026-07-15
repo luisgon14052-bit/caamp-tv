@@ -40,3 +40,27 @@ function renderNextClass() {
         tvState.nextClass.coach;
 
 }
+
+async function init() {
+
+    const next = await getNextClass();
+
+    if (!next) return;
+
+    tvState.nextClass = {
+
+        class: next.classes.name,
+
+        coach: next.coaches.name,
+
+        photo: next.coaches.photo_url,
+
+        time: next.start_time
+
+    };
+
+    renderNextClass();
+
+}
+
+init();
