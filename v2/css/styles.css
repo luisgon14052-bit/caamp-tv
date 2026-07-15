@@ -1,3 +1,15 @@
+:root{
+
+--bg:#000;
+
+--text:#fff;
+
+--green:#9EFF6B;
+
+--overlay:rgba(0,0,0,.62);
+
+}
+
 *{
     margin:0;
     padding:0;
@@ -163,5 +175,35 @@ filter:brightness(.35);
 transform:scale(1.05);
 
 transition:background-image .8s ease;
+
+}
+
+#tv{
+
+position:absolute;
+
+width:100vh;
+
+height:100vw;
+
+left:50%;
+
+top:50%;
+
+transform:
+translate(-50%,-50%)
+rotate(90deg);
+
+overflow:hidden;
+
+background:black;
+
+}
+
+body{
+
+background:black;
+
+overflow:hidden;
 
 }
