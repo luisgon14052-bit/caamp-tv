@@ -1,24 +1,23 @@
 const video = document.getElementById("welcome-video");
 
-video.addEventListener("ended", async ()=>{
+video.addEventListener("ended", async () => {
 
     Router.show("next-screen");
 
-    setTimeout(()=>{
+    setTimeout(() => {
 
         Router.show("schedule-screen");
 
-        setTimeout(()=>{
+        setTimeout(() => {
 
             Router.show("welcome-screen");
 
-            video.currentTime=0;
-
+            video.currentTime = 0;
             video.play();
 
-        },8000);
+        }, 8000);
 
-    },12000);
+    }, 12000);
 
 });
 
@@ -26,6 +25,7 @@ const coachBackground = document.getElementById("coach-background");
 const className = document.getElementById("class-name");
 const coachName = document.getElementById("coach-name");
 const countdown = document.getElementById("countdown");
+
 function renderNextClass() {
 
     if (!tvState.nextClass) return;
@@ -45,16 +45,15 @@ async function init() {
 
     const next = await getNextClass();
 
+    console.log("NEXT:", next);
+
     if (!next) return;
 
     tvState.nextClass = {
 
         class: next.classes.name,
-
         coach: next.coaches.name,
-
         photo: next.coaches.photo_url,
-
         time: next.start_time
 
     };
@@ -63,6 +62,4 @@ async function init() {
 
 }
 
-init(const next = await getNextClass();
-
-console.log("NEXT:", next););
+init();
