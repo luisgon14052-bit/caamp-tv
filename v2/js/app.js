@@ -1,34 +1,16 @@
 const video = document.getElementById("welcome-video");
 
-const welcome = document.getElementById("welcome-screen");
-const next = document.getElementById("next-screen");
-const schedule = document.getElementById("schedule-screen");
+video.addEventListener("ended", async ()=>{
 
-function show(id){
-
-    document
-        .querySelectorAll(".screen")
-        .forEach(screen=>screen.classList.remove("active"));
-
-    document
-        .getElementById(id)
-        .classList.add("active");
-
-}
-
-show("welcome-screen");
-
-video.addEventListener("ended",()=>{
-
-    show("next-screen");
+    Router.show("next-screen");
 
     setTimeout(()=>{
 
-        show("schedule-screen");
+        Router.show("schedule-screen");
 
         setTimeout(()=>{
 
-            show("welcome-screen");
+            Router.show("welcome-screen");
 
             video.currentTime=0;
 
