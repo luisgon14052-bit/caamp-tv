@@ -2,71 +2,109 @@
 <html lang="es">
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CAAMP TV V2</title>
+    <title>CAAMP TV V2</title>
 
-<link rel="stylesheet" href="css/styles.css">
-<link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 </head>
 
 <body>
 
-<!-- WELCOME -->
+<div id="tv">
 
-<section id="welcome-screen" class="screen active">
+    <!-- ========================= -->
+    <!-- WELCOME VIDEO -->
+    <!-- ========================= -->
 
-    <video
-        id="welcome-video"
-        autoplay
-        muted
-        playsinline>
+    <section id="welcome-screen" class="screen active">
 
-        <source
-            src="https://pfdzieimosggmzmwikpj.supabase.co/storage/v1/object/public/tv-media/welcome.mp4"
-            type="video/mp4">
+        <video
+            id="welcome-video"
+            autoplay
+            muted
+            playsinline
+            preload="auto">
 
-    </video>
+            <source
+                src="https://pfdzieimosggmzmwikpj.supabase.co/storage/v1/object/public/tv-media/welcome.mp4"
+                type="video/mp4">
 
-    <div class="overlay"></div>
+        </video>
 
-</section>
-<section id="next-screen" class="screen">
+        <div class="overlay"></div>
 
-    <div id="coach-background"></div>
+    </section>
 
-    <div class="overlay"></div>
 
-    <div class="content">
+    <!-- ========================= -->
+    <!-- NEXT CLASS -->
+    <!-- ========================= -->
 
-        <h3>NEXT CLASS</h3>
+    <section id="next-screen" class="screen">
 
-        <h1 id="class-name"></h1>
+        <div id="coach-background"></div>
 
-        <h2 id="coach-name"></h2>
+        <div class="overlay"></div>
 
-        <p id="countdown"></p>
+        <div class="content">
 
-    </div>
+            <h3>NEXT CLASS</h3>
 
-</section>
+            <h1 id="class-name">
+                Loading...
+            </h1>
 
-<!-- TODAY -->
+            <h2 id="coach-name">
+            </h2>
 
-<section id="schedule-screen" class="screen">
+            <p id="countdown">
+            </p>
 
-    <div class="content">
+        </div>
 
-        <h3>TODAY'S TRAIN</h3>
+    </section>
 
-    </div>
 
-</section>
+    <!-- ========================= -->
+    <!-- TODAY -->
+    <!-- ========================= -->
 
+    <section id="schedule-screen" class="screen">
+
+        <div class="overlay"></div>
+
+        <div class="content">
+
+            <h3>TODAY'S TRAIN</h3>
+
+            <div id="today-schedule">
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- ========================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================= -->
+
+<script src="js/config.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/state.js"></script>
+<script src="js/schedule.js"></script>
+<script src="js/media.js"></script>
+<script src="js/router.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/clock.js"></script>
 <script src="js/app.js"></script>
 
 </body>
