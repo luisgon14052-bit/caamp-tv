@@ -63,4 +63,6 @@ async function init() {
 
 }
 
-init();
+init(const next = await getNextClass();
+
+console.log("NEXT:", next););
