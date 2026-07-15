@@ -1,15 +1,36 @@
-const next = await getNextClass();
+async function getNextClass() {
 
-tvState.nextClass = {
+    const { data: week, error: weekError } = await supabase
+        .from("weekly_schedules")
+        .select("id")
+        .eq("published", true)
+        .single();
 
-    class: next.classes.name,
+    if (weekError || !week) {
+        console.error("No hay horario publicado");
+        return null;
+    }
 
-    coach: next.coaches.name,
+    const { data, error } = await supabase
+        .from("schedule_items")
+        .select(`
+            start_time,
+            day,
+            classes(name,color),
+            coaches(name,photo_url)
+        `)
+        .eq("schedule_id", week.id)
+        .order("day")
+        .order("start_time");
 
-    photo: next.coaches.photo_url,
+    if (error) {
+        console.error(error);
+        return null;
+    }
 
-    time: next.start_time
-
-};
-
-renderNextClass();
+    // TEMPORAL:
+    // Por ahora usamos la primera clase.
+    // Después haremos que encuentre automáticamente
+    // la siguiente según la hora actual.
+    return data[0];
+}
