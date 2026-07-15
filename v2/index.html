@@ -1,43 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAAMP TV V2</title>
 
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>CAAMP TV V2</title>
-
-<link rel="stylesheet" href="css/styles.css">
-<link rel="stylesheet" href="css/animations.css">
-
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
 </head>
 
 <body>
 
 <div id="intro">
+  <video
+    id="welcomeVideo"
+    autoplay
+    muted
+    playsinline>
 
-<video
-id="welcomeVideo"
-autoplay
-muted
-playsinline>
+    <source src="assets/welcome.mp4" type="video/mp4">
 
-<source src="assets/welcome.mp4" type="video/mp4">
-
-</video>
-
+  </video>
 </div>
 
 <div id="app" class="hidden">
-
-<h1>CAAMP TV</h1>
-
+  <h1>CAAMP TV</h1>
 </div>
 
 <script src="js/app.js"></script>
 
 </body>
-
 </html>
