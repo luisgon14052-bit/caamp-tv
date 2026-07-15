@@ -91,6 +91,13 @@ body{
   line-height:0.9;
   text-transform:uppercase;
 }
+  .focus{
+  margin-top:18px;
+  font-size:32px;
+  letter-spacing:4px;
+  color:#8a8a8a;
+  text-transform:uppercase;
+}
 
 .coach{
   margin-top:40px;
@@ -318,26 +325,26 @@ let schedule = {};
 
   title: item.classes?.name ?? "",
 
-  class: (() => {
+  focus: (() => {
     switch (item.day) {
       case "Lunes":
-        return "Lower Body • Quads";
+        return "LOWER BODY • QUADS";
 
       case "Martes":
-        return "Upper Body • Pull Day";
+        return "UPPER BODY • PULL DAY";
 
       case "Miércoles":
-        return "All About the Core";
+        return "ALL ABOUT THE CORE";
 
       case "Jueves":
-        return "Lower Body • Glutes";
+        return "LOWER BODY • GLUTES";
 
       case "Viernes":
-        return "Upper Body • Push Day";
+        return "UPPER BODY • PUSH DAY";
 
       case "Sábado":
       case "Domingo":
-        return "Full Body";
+        return "FULL BODY";
 
       default:
         return "";
@@ -548,9 +555,13 @@ if(diff <= 300){
       PRÓXIMA CLASE
     </div>
 
-    <div class="class">
-      ${nextClass.class}
-    </div>
+<div class="class">
+  ${nextClass.title}
+</div>
+
+<div class="focus">
+  ${nextClass.focus}
+</div>
 
       <div class="coach">
         ${nextClass.coach}
