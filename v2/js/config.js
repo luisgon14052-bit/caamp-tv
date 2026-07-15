@@ -1,0 +1,17 @@
+const CONFIG = {
+
+    ROTATE_SCREEN: true,
+
+    VIDEO_DURATION: 36,
+
+    NEXT_CLASS_DURATION: 12,
+
+    TODAY_DURATION: 8,
+
+    MEDIA_DURATION: 15,
+
+    TRANSITION: 800,
+
+    DEBUG: false
+
+};
