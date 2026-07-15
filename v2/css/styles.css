@@ -148,3 +148,20 @@ body{
     opacity:.85;
 
 }
+#coach-background{
+
+position:absolute;
+
+inset:0;
+
+background-size:cover;
+
+background-position:center;
+
+filter:brightness(.35);
+
+transform:scale(1.05);
+
+transition:background-image .8s ease;
+
+}
