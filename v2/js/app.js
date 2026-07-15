@@ -21,3 +21,8 @@ video.addEventListener("ended", async ()=>{
     },12000);
 
 });
+
+const coachBackground = document.getElementById("coach-background");
+const className = document.getElementById("class-name");
+const coachName = document.getElementById("coach-name");
+const countdown = document.getElementById("countdown");
