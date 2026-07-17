@@ -477,6 +477,7 @@ function update(){
     const seconds = diff%60;
     countdownText = `${minutes}:${String(seconds).padStart(2,'0')}`;
   }
+  }
 
   
 if((elapsed >= 120 && elapsed < 150) || elapsed >= 270){
@@ -642,7 +643,7 @@ style="background-image:url('${nextClass.photo}')"></div>
 `;
 
 }
-
+}
 function showLogoRain(){
 
   const rain = document.getElementById('logoRain');
