@@ -319,6 +319,8 @@ let schedule = {};
     `)
     .eq("schedule_id", week.id)
     .order("start_time");
+    console.log("ERROR:", error);
+console.log("DATA:", data);
 
   if (error) {
     console.error(error);
