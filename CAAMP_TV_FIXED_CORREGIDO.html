@@ -1,0 +1,702 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" ="width=device-width, initial-scale=1.0">
+<title>CAAMP TV TEST</title>
+
+<style>
+@font-face {
+  font-family: 'TTHoves';
+  src: url('./TT%20Hoves%20Pro%20Trial%20DemiBold.ttf') format('truetype');
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'TTHoves',sans-serif;
+}
+
+body{
+  background:#111;
+  color:#fff;
+  overflow:hidden;
+}
+
+.green-mode{
+  background:#00C853;
+}
+
+.green-mode {
+  background:#00C853;
+}
+
+.screen{
+  width:1080px;
+  height:1920px;
+  background:#000;
+
+  position:absolute;
+  top:0;
+  left:0;
+
+  transform:
+    rotate(90deg)
+    scale(.54)
+    translateY(-100%);
+
+  transform-origin:top left;
+
+  padding:70px;
+  display:flex;
+  flex-direction:column;
+  text-align:center;
+}
+  .backgroundCoach{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  filter:brightness(.35);
+  z-index:0;
+}
+
+.overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.55),
+    rgba(0,0,0,.35),
+    rgba(0,0,0,.60)
+  );
+  z-index:1;
+}
+
+.foreground{
+  position:relative;
+  z-index:2;
+}
+
+.logo{
+  width:220px;
+  margin:0 auto 50px auto;
+}
+
+.time{
+  font-size:80px;
+  font-weight:700;
+}
+
+.date{
+  font-size:30px;
+  color:#888;
+  margin-top:10px;
+}
+
+.line{
+  width:100%;
+  height:1px;
+  background:#222;
+  margin:70px 0;
+}
+
+.label{
+  color:#777;
+  font-size:34px;
+  letter-spacing:8px;
+  margin-bottom:40px;
+}
+
+.class{
+  font-size:88px;
+  line-height:0.9;
+  text-transform:uppercase;
+}
+  .focus{
+  margin-top:18px;
+  font-size:32px;
+  letter-spacing:4px;
+  color:#8a8a8a;
+  text-transform:uppercase;
+}
+
+.coach{
+  margin-top:40px;
+  font-size:46px;
+  color:#ddd;
+}
+
+.classTime{
+  margin-top:0;
+  font-size:75px;
+}
+
+.countLabel{
+  margin-top:70px;
+  color:#777;
+  font-size:34px;
+}
+
+.countdown{
+  font-size:140px;
+  line-height:1;
+}
+
+.footer{
+  margin-top:auto;
+  border-top:1px solid #222;
+  padding-top:40px;
+  color:#666;
+  font-size:30px;
+}
+
+.goodbye{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100%;
+}
+
+.goodbye h1{
+  font-size:120px;
+  line-height:1;
+}
+
+.goodbye p{
+  font-size:42px;
+  margin-top:50px;
+  color:#ddd;
+}
+
+.todayTitle{
+  font-size:58px;
+  margin-bottom:50px;
+  letter-spacing:6px;
+}
+
+.todayList{
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+  text-align:left;
+}
+
+.todayItem{
+  display:flex;
+  align-items:center;
+  gap:25px;
+  padding:20px;
+  border-bottom:1px solid #222;
+}
+
+.todayPhoto{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  object-fit:cover;
+  flex:none;
+}
+
+.todayInfo{
+  flex:1;
+}
+
+.todayCoach{
+  font-size:30px;
+}
+
+.todayClass{
+  font-size:20px;
+  color:#888;
+  margin-top:6px;
+}
+
+.todayTime{
+  font-size:28px;
+}
+
+.past{
+  opacity:.35;
+}
+
+.next{
+  border:2px solid #fff;
+  border-radius:25px;
+}
+
+.logoRain{
+  position:absolute;
+  inset:0;
+  background:#000;
+  overflow:hidden;
+  display:none;
+  z-index:9999;
+}
+
+.logoRain.show{
+  display:block;
+}
+
+.fallingLogo{
+  position:absolute;
+  width:120px;
+  opacity:.9;
+  animation:fall 8s linear forwards;
+  filter:brightness(0) invert(1);
+}
+
+@keyframes fall{
+  from{
+    transform:translateY(-250px) rotate(0deg);
+  }
+  to{
+    transform:translateY(2300px) rotate(360deg);
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="screen">
+
+<img src="./logo.png" class="logo">
+
+<div id="logoRain" class="logoRain"></div>
+
+<div class="time" id="time"></div>
+<div class="date" id="date"></div>
+
+<div class="line"></div>
+
+<div id="content"></div>
+
+<div class="footer">
+@caampst<br><br>
+TRAIN • EVOLVE • BELONG
+</div>
+
+</div>
+
+<script>
+const supabaseClient = window.supabase.createClient(
+  "https://pfdzieimosggmzmwikpj.supabase.co",
+  "sb_publishable_aDhVtFxdRCCBgU-NEYozhw_JUrjmYlT"
+);
+
+let schedule = {};
+
+  async function loadSchedule(){
+
+  const { data: week, error: weekError } = await supabaseClient
+    .from("weekly_schedules")
+    .select("id")
+    .eq("published", true)
+    .single();
+
+  if (weekError || !week) {
+    console.error("No hay semana publicada");
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("schedule_items")
+    .select(`
+      day,
+      start_time,
+      classes(name,color),
+      coaches(
+    name,
+    photo_url
+)
+    `)
+    .eq("schedule_id", week.id)
+    .order("start_time");
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  schedule = {
+    sunday: [],
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: [],
+    saturday: [],
+  };
+
+  const dayMap = {
+    "Lunes":"monday",
+    "Martes":"tuesday",
+    "Miércoles":"wednesday",
+    "Jueves":"thursday",
+    "Viernes":"friday",
+    "Sábado":"saturday",
+    "Domingo":"sunday"
+  };
+
+  data.forEach(item=>{
+    const key=dayMap[item.day];
+    if(!key) return;
+
+    schedule[key].push({
+  time: item.start_time,
+
+  title: item.classes?.name ?? "",
+
+  focus: (() => {
+    switch (item.day) {
+      case "Lunes":
+        return "LOWER BODY • QUADS";
+
+      case "Martes":
+        return "UPPER BODY • PULL DAY";
+
+      case "Miércoles":
+        return "ALL ABOUT THE CORE";
+
+      case "Jueves":
+        return "LOWER BODY • GLUTES";
+
+      case "Viernes":
+        return "UPPER BODY • PUSH DAY";
+
+      case "Sábado":
+      case "Domingo":
+        return "FULL BODY";
+
+      default:
+        return "";
+    }
+  })(),
+
+  coach: item.coaches?.name ?? "",
+  photo: item.coaches?.photo_url ?? "./logo.png"
+});
+  });
+
+  console.log("Horario cargado", schedule);
+}
+
+
+function update(){
+
+  const now = new Date();
+
+  document.getElementById('time').innerHTML =
+    now.toLocaleTimeString('es-MX',{
+      hour:'numeric',
+      minute:'2-digit'
+    });
+
+  document.getElementById('date').innerHTML =
+    now.toLocaleDateString('es-MX',{
+      weekday:'long',
+      day:'numeric',
+      month:'long'
+    });
+
+  const days = [
+    'sunday','monday','tuesday',
+    'wednesday','thursday',
+    'friday','saturday'
+  ];
+
+  const today =
+    schedule[days[now.getDay()]] || [];
+
+  let nextClass = null;
+
+  for(const c of today){
+    const [h,m] = c.time.split(':');
+
+    const d = new Date();
+    d.setHours(h,m,0,0);
+
+    if(d > now){
+      nextClass = c;
+      break;
+    }
+  }
+
+  const elapsed =
+    Math.floor(Date.now()/1000) % 300;
+
+
+  const content =
+    document.getElementById('content');
+
+  document.body.classList.remove('green-mode');
+
+  if(!nextClass){
+    content.innerHTML = `
+      <div class="goodbye">
+        <h1>
+          THANK YOU<br>
+          FOR TRAINING
+        </h1>
+
+        <p>
+          SEE YOU TOMORROW
+          <br><br>
+          @caampst
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  const [h,m] = nextClass.time.split(':');
+
+  const classDate = new Date();
+  classDate.setHours(h,m,0,0);
+
+  const diff = Math.max(
+    0,
+    Math.floor((classDate-now)/1000)
+  );
+
+  let countdownText;
+
+  if(diff >= 3600){
+    const hours = Math.floor(diff/3600);
+    const mins = Math.floor((diff % 3600)/60);
+    countdownText = `${hours} h ${String(mins).padStart(2,'0')} min`;
+  }else{
+    const minutes = Math.floor(diff/60);
+    const seconds = diff%60;
+    countdownText = `${minutes}:${String(seconds).padStart(2,'0')}`;
+  }
+
+  
+if((elapsed >= 120 && elapsed < 150) || elapsed >= 270){
+
+  content.innerHTML = '';
+
+  if(!document.getElementById('logoRain').classList.contains('show')){
+    showLogoRain();
+  }
+
+  return;
+}
+
+if(elapsed >= 150 && elapsed < 270){
+
+  let list = `
+    <div class="todayTitle">
+      TODAY'S TRAIN
+    </div>
+
+    <div class="todayList">
+  `;
+
+  today.forEach(c=>{
+
+    const [h,m] = c.time.split(':');
+
+    const d = new Date();
+    d.setHours(h,m,0,0);
+
+    const isPast = d < now;
+    const isNext = nextClass && c.time === nextClass.time;
+
+    const photo =
+      Array.isArray(c.photo)
+        ? c.photo[0]
+        : c.photo;
+
+    list += `
+      <div class="todayItem ${isPast ? 'past' : ''} ${isNext ? 'next' : ''}">
+
+        <img
+          src="${photo}"
+          class="todayPhoto"
+        >
+
+        <div class="todayInfo">
+          <div class="todayCoach">
+            ${c.coach}
+          </div>
+
+          <div class="todayClass">
+            ${c.title}
+          </div>
+        </div>
+
+        <div class="todayTime">
+          ${new Date(`2000-01-01T${c.time}`)
+            .toLocaleTimeString(
+              'es-MX',
+              {
+                hour:'numeric',
+                minute:'2-digit'
+              }
+            )}
+        </div>
+
+      </div>
+    `;
+  });
+
+  list += `</div>`;
+
+  content.innerHTML = list;
+
+  return;
+}
+
+if(diff <= 300){
+
+  document.body.classList.add('green-mode');
+
+  content.innerHTML = `
+<div class="backgroundCoach"
+style="background-image:url('${nextClass.photo}')"></div>
+
+<div class="overlay"></div>
+
+<div class="foreground">
+
+  <div class="label">PRÓXIMA CLASE</div>
+
+  <div class="class">
+    ${nextClass.title}
+  </div>
+
+  <div class="focus">
+    ${nextClass.focus}
+  </div>
+
+  <div class="coach">
+    ${nextClass.coach}
+  </div>
+
+  <div class="classTime">
+    ${new Date(`2000-01-01T${nextClass.time}`).toLocaleTimeString('es-MX',{
+      hour:'numeric',
+      minute:'2-digit'
+    })}
+  </div>
+
+  <div class="countLabel">
+    COMIENZA EN
+  </div>
+
+  <div class="countdown">
+    ${countdownText}
+  </div>
+
+</div>
+`;
+
+}else{
+
+  content.innerHTML = `
+<div class="backgroundCoach"
+style="background-image:url('${nextClass.photo}')"></div>
+
+<div class="overlay"></div>
+
+<div class="foreground">
+
+  <div class="label">PRÓXIMA CLASE</div>
+
+  <div class="class">
+    ${nextClass.title}
+  </div>
+
+  <div class="focus">
+    ${nextClass.focus}
+  </div>
+
+  <div class="coach">
+    ${nextClass.coach}
+  </div>
+
+  <div class="classTime">
+    ${new Date(`2000-01-01T${nextClass.time}`).toLocaleTimeString('es-MX',{
+      hour:'numeric',
+      minute:'2-digit'
+    })}
+  </div>
+
+  <div class="countLabel">
+    COMIENZA EN
+  </div>
+
+  <div class="countdown">
+    ${countdownText}
+  </div>
+
+</div>
+`;
+
+}function showLogoRain(){
+
+  const rain = document.getElementById('logoRain');
+  if(!rain) return;
+
+  rain.innerHTML = '';
+  rain.classList.add('show');
+
+  const interval = setInterval(()=>{
+    for(let i=0;i<12;i++){
+      const img = document.createElement('img');
+      img.src = './logo.png';
+      img.className = 'fallingLogo';
+      img.style.left = Math.random()*1800 + 'px';
+      img.style.top = '-150px';
+      img.style.width = (20 + Math.random()*25) + 'px';
+      img.style.animationDuration =
+        (5 + Math.random()*5) + 's';
+
+      rain.appendChild(img);
+
+      img.addEventListener('animationend',()=>{
+        img.remove();
+      });
+    }
+  },120);
+
+  setTimeout(()=>{
+    clearInterval(interval);
+    rain.classList.remove('show');
+    rain.innerHTML = '';
+  },30000);
+}
+
+
+
+const scale = Math.min(
+  window.innerWidth / 1920,
+  window.innerHeight / 1080
+) * 0.95;
+
+const screen = document.querySelector('.screen');
+
+screen.style.left = '0';
+screen.style.top = '20px';
+
+screen.style.transform =
+  `rotate(90deg) scale(${scale}) translateY(-100%)`;
+
+loadSchedule();
+setInterval(loadSchedule,30000);
+
+update();
+setInterval(update,1000);
+
+</script>
+
+</body>
+</html>
