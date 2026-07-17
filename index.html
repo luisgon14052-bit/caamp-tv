@@ -679,18 +679,18 @@ style="background-image:url('${nextClass.photo}')"></div>
 
 
 
-const scale = Math.min(
+const scale = Math.max(
   window.innerWidth / 1920,
   window.innerHeight / 1080
-) * 0.95;
+);
 
 const screen = document.querySelector('.screen');
 
-screen.style.left = '0';
-screen.style.top = '20px';
+screen.style.left = '50%';
+screen.style.top = '50%';
 
 screen.style.transform =
-  `rotate(90deg) scale(${scale}) translateY(-100%)`;
+  `translate(-50%, -50%) rotate(90deg) scale(${scale})`;
 
 loadSchedule();
 setInterval(loadSchedule,30000);
