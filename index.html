@@ -352,7 +352,7 @@ let schedule = {};
   })(),
 
   coach: item.coaches?.name ?? "",
-  photo: "./logo.png"
+  photo: item.coaches?.photo_url ?? "./logo.png"
 });
   });
 
@@ -500,7 +500,7 @@ if(elapsed >= 150 && elapsed < 270){
           </div>
 
           <div class="todayClass">
-            ${c.class}
+            ${c.title}
           </div>
         </div>
 
