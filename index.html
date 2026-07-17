@@ -4,7 +4,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" ="width=device-width, initial-scale=1.0">
 <title>CAAMP TV TEST</title>
 
 <style>
@@ -30,7 +30,7 @@ body{
   background:#00C853;
 }
 
-.green-mode .screen{
+.green-mode {
   background:#00C853;
 }
 
@@ -54,6 +54,32 @@ body{
   display:flex;
   flex-direction:column;
   text-align:center;
+}
+  .backgroundCoach{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  filter:brightness(.35);
+  z-index:0;
+}
+
+.overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.55),
+    rgba(0,0,0,.35),
+    rgba(0,0,0,.60)
+  );
+  z-index:1;
+}
+
+.foreground{
+  position:relative;
+  z-index:2;
 }
 
 .logo{
@@ -286,7 +312,10 @@ let schedule = {};
       day,
       start_time,
       classes(name,color),
-      coaches(name)
+      coaches(
+    name,
+    photo_url
+)
     `)
     .eq("schedule_id", week.id)
     .order("start_time");
@@ -452,7 +481,7 @@ function update(){
   
 if((elapsed >= 120 && elapsed < 150) || elapsed >= 270){
 
-  content.innerHTML = '';
+  .innerHTML = '';
 
   if(!document.getElementById('logoRain').classList.contains('show')){
     showLogoRain();
@@ -521,7 +550,7 @@ if(elapsed >= 150 && elapsed < 270){
 
   list += `</div>`;
 
-  content.innerHTML = list;
+  .innerHTML = list;
 
   return;
 }
@@ -530,27 +559,54 @@ if(diff <= 300){
 
   document.body.classList.add('green-mode');
 
-  content.innerHTML = `
-    <div class="label">
-      PRÓXIMA CLASE
-    </div>
+  .content.innerHTML = `
+<div
+  class="backgroundCoach"
+  style="background-image:url('${nextClass.photo}')">
+</div>
 
-    <div class="class">
-      ${nextClass.class}
-    </div>
+<div class="overlay"></div>
 
-    <div class="countLabel">
-      COMIENZA EN
-    </div>
+<div class="foreground">
 
-    <div class="countdown">
-      ${countdownText}
-    </div>
-  `;
+  <div class="label">
+    PRÓXIMA CLASE
+  </div>
 
-}else{
+  <div class="class">
+    ${nextClass.title}
+  </div>
 
-  content.innerHTML = `
+  <div class="focus">
+    ${nextClass.focus}
+  </div>
+
+  <div class="coach">
+    ${nextClass.coach}
+  </div>
+
+  <div class="classTime">
+    ${new Date(`2000-01-01T${nextClass.time}`).toLocaleTimeString(
+      'es-MX',
+      {
+        hour:'numeric',
+        minute:'2-digit'
+      }
+    )}
+  </div>
+
+  <div class="countLabel">
+    COMIENZA EN
+  </div>
+
+  <div class="countdown">
+    ${countdownText}
+  </div>
+
+</div>
+`;
+
+  .innerHTML = `
     <div class="label">
       PRÓXIMA CLASE
     </div>
