@@ -686,11 +686,16 @@ const scale = Math.min(
 
 const screen = document.querySelector('.screen');
 
-screen.style.left = '0';
-screen.style.top = '20px';
+screen.style.left = "0";
+screen.style.top = "0";
+
+const scale = Math.min(
+  window.innerWidth / 1080,
+  window.innerHeight / 1920
+);
 
 screen.style.transform =
-  `rotate(90deg) scale(${scale}) translateY(-100%)`;
+  `scale(${scale})`;
 
 loadSchedule();
 setInterval(loadSchedule,30000);
